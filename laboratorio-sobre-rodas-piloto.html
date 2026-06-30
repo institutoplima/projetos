@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dia Zero · Piloto do Laboratório sobre Rodas — Instituto Pedro Lima</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#019541;
+    --green-deep:#017a36;
+    --green-ink:#015a28;
+    --gold:#ffca00;
+    --ink:#0e1a13;
+    --paper:#eef2f5;
+    --paper-2:#ffffff;
+    --line:rgba(1,149,65,.15);
+    --muted:#4d5a52;
+    --shadow:0 18px 50px -22px rgba(1,90,40,.45);
+    --r:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,sans-serif;background:var(--paper);color:var(--ink);
+    line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3,h4{font-family:'Sora',sans-serif;letter-spacing:-.02em;line-height:1.12}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px}
+  .mono{font-family:'JetBrains Mono',monospace}
+  a{color:inherit}
+
+  /* LOGO SVG sizing */
+  .logo-svg{height:30px;width:auto;display:block}
+  .logo-svg.sm{height:26px}
+  /* watermark icon */
+  .wm{position:absolute;pointer-events:none;opacity:.07}
+  .wm svg{width:100%;height:100%;display:block}
+  .wm.on-green{opacity:.16}
+  .wm.on-green .ic1{fill:#ffffff!important}
+  .wm.on-green .ic2{fill:var(--gold)!important}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;background:rgba(238,242,245,.85);
+    backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .nav-links{display:flex;gap:28px;align-items:center}
+  .nav-links a{font-size:.83rem;font-weight:500;color:var(--muted);text-decoration:none;transition:color .2s}
+  .nav-links a:hover{color:var(--green-deep)}
+  .btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;
+    font-family:'Sora';font-weight:600;font-size:.86rem;padding:12px 22px;border-radius:999px;
+    text-decoration:none;border:none;cursor:pointer;transition:transform .15s,box-shadow .2s,background .2s;
+    box-shadow:0 10px 24px -10px rgba(1,149,65,.7)}
+  .btn:hover{transform:translateY(-2px);background:var(--green-deep)}
+  .btn.ghost{background:transparent;color:var(--green-deep);border:1.5px solid var(--green);box-shadow:none}
+  .btn.ghost:hover{background:var(--green);color:#fff}
+  .btn.gold{background:var(--gold);color:var(--ink);box-shadow:0 10px 24px -10px rgba(255,202,0,.8)}
+  .btn.gold:hover{background:#e6b600}
+  @media(max-width:860px){.nav-links a:not(.btn){display:none}}
+
+  /* HERO */
+  .hero{position:relative;padding:80px 0 90px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;
+    background:radial-gradient(900px 480px at 88% -8%,rgba(1,149,65,.10),transparent 60%),
+      radial-gradient(700px 420px at -6% 110%,rgba(255,202,0,.12),transparent 60%);pointer-events:none}
+  .hero .wm{top:-40px;right:-30px;width:340px;height:340px;z-index:0}
+  .hero-grid{position:relative;display:grid;grid-template-columns:1.12fr .88fr;gap:48px;align-items:center;z-index:1}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'Sora';font-weight:600;
+    font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--green-deep);
+    background:rgba(1,149,65,.1);padding:7px 14px;border-radius:999px;margin-bottom:22px}
+  .eyebrow .dot{width:7px;height:7px;border-radius:50%;background:var(--gold)}
+  .hero h1{font-size:clamp(2.4rem,5.6vw,4rem);font-weight:800;color:var(--green-ink)}
+  .hero h1 em{font-style:normal;color:var(--green)}
+  .hero h1 .tag-sub{display:block;font-size:.32em;margin-top:14px;font-weight:600;color:var(--green-deep);letter-spacing:0;font-family:'Sora'}
+  .hero p.lead{font-size:1.1rem;color:var(--muted);margin:22px 0 0;max-width:32em}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px}
+  .pilot-tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:30px}
+  .ptag{font-family:'JetBrains Mono',monospace;font-size:.74rem;font-weight:600;
+    background:var(--paper-2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;color:var(--green-ink)}
+  .ptag b{color:#bf9700}
+
+  .hero-card{position:relative;background:var(--green);border-radius:22px;padding:34px 32px;
+    color:#fff;box-shadow:var(--shadow);overflow:hidden}
+  .hero-card .wm{right:-50px;bottom:-50px;width:230px;height:230px}
+  .hero-card .kicker{font-family:'JetBrains Mono',monospace;font-size:.74rem;letter-spacing:.12em;
+    opacity:.85;position:relative}
+  .hero-card h3{font-size:1.45rem;font-weight:700;margin:8px 0 18px;position:relative}
+  .hero-card ul{list-style:none;display:flex;flex-direction:column;gap:13px;position:relative}
+  .hero-card li{display:flex;gap:11px;font-size:.92rem;align-items:flex-start}
+  .hero-card li svg{flex:none;width:18px;height:18px;stroke:var(--gold);fill:none;stroke-width:2.4;margin-top:3px}
+  @media(max-width:880px){.hero-grid{grid-template-columns:1fr;gap:34px}.hero .wm{width:240px;height:240px;opacity:.05}}
+
+  /* SECTIONS */
+  section{padding:80px 0}
+  .sec-head{max-width:46em;margin-bottom:44px}
+  .sec-tag{font-family:'Sora';font-weight:600;font-size:.72rem;letter-spacing:.22em;
+    text-transform:uppercase;color:var(--green);margin-bottom:14px}
+  .sec-head h2{font-size:clamp(1.8rem,3.6vw,2.5rem);font-weight:700;color:var(--green-ink)}
+  .sec-head p{color:var(--muted);font-size:1.05rem;margin-top:16px}
+
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .card{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r);
+    padding:30px 26px;transition:transform .2s,box-shadow .2s}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .card .ico{width:44px;height:44px;border-radius:12px;background:rgba(1,149,65,.1);
+    display:grid;place-items:center;margin-bottom:16px}
+  .card .ico svg{width:23px;height:23px;stroke:var(--green-deep);fill:none;stroke-width:1.8}
+  .card h3{font-size:1.15rem;font-weight:700;margin-bottom:9px;color:var(--green-ink)}
+  .card p{font-size:.93rem;color:var(--muted)}
+  @media(max-width:820px){.grid-3{grid-template-columns:1fr}}
+
+  /* BAND */
+  .band{background:var(--green);color:#fff;position:relative;overflow:hidden}
+  .band .wm{right:-20px;bottom:-60px;width:300px;height:300px}
+  .band .sec-tag{color:var(--gold)}
+  .band h2{color:#fff;font-size:clamp(1.7rem,3.4vw,2.4rem);max-width:20em;position:relative;z-index:1}
+  .band p{color:rgba(255,255,255,.88);max-width:42em;margin-top:18px;font-size:1.08rem;position:relative;z-index:1}
+
+  /* CRONOGRAMA */
+  .timeline{display:flex;flex-direction:column;gap:0;position:relative;margin-top:8px}
+  .slot{display:grid;grid-template-columns:120px 1fr;gap:24px;padding:22px 0;border-top:1px solid var(--line)}
+  .slot:first-child{border-top:none}
+  .slot .time{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:.92rem;color:var(--green);
+    display:flex;flex-direction:column;gap:6px}
+  .slot .time .tag{font-family:'Sora';font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+    font-weight:600;padding:3px 8px;border-radius:6px;width:fit-content}
+  .slot .time .tag.teoria{background:rgba(1,149,65,.12);color:var(--green-deep)}
+  .slot .time .tag.pista{background:rgba(255,202,0,.22);color:#8a6b00}
+  .slot .time .tag.humano{background:rgba(1,122,54,.08);color:var(--green-ink)}
+  .slot .body h4{font-size:1.08rem;color:var(--green-ink);margin-bottom:5px}
+  .slot .body p{font-size:.92rem;color:var(--muted)}
+  .slot .body .cap{display:inline-flex;align-items:center;gap:7px;margin-top:9px;
+    font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#bf9700;font-weight:600}
+  .slot .body .cap::before{content:"\25CF";color:var(--gold)}
+  @media(max-width:680px){.slot{grid-template-columns:1fr;gap:10px}}
+
+  /* CURRICULO */
+  .curr{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  .mod{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r);padding:28px 26px;
+    position:relative;overflow:hidden}
+  .mod .num{font-family:'Sora';font-weight:300;font-size:2.4rem;color:rgba(1,149,65,.26);line-height:1}
+  .mod h3{font-size:1.12rem;color:var(--green-ink);margin:6px 0 10px}
+  .mod p{font-size:.9rem;color:var(--muted);margin-bottom:14px}
+  .mod .learn{display:flex;flex-wrap:wrap;gap:7px}
+  .mod .learn span{font-size:.74rem;font-weight:600;background:rgba(1,149,65,.08);
+    color:var(--green-deep);padding:5px 10px;border-radius:7px}
+  @media(max-width:820px){.curr{grid-template-columns:1fr}}
+
+  /* KIT */
+  .kit{display:grid;grid-template-columns:.9fr 1.1fr;gap:42px;align-items:center}
+  .kit-visual{background:linear-gradient(160deg,var(--green) 0%,var(--green-deep) 100%);
+    border-radius:24px;padding:42px 36px;color:#fff;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+  .kit-visual .wm{right:-44px;bottom:-50px;width:240px;height:240px}
+  .kit-visual .kicker{font-family:'JetBrains Mono',monospace;font-size:.74rem;letter-spacing:.12em;opacity:.85;position:relative}
+  .kit-visual h3{font-size:1.7rem;margin:8px 0 6px;position:relative}
+  .kit-visual p{opacity:.88;font-size:.94rem;position:relative}
+  .kit-list{display:flex;flex-direction:column;gap:14px}
+  .kit-item{display:flex;gap:15px;align-items:flex-start;background:var(--paper-2);
+    border:1px solid var(--line);border-radius:13px;padding:16px 18px}
+  .kit-item .ic{flex:none;width:40px;height:40px;border-radius:10px;background:rgba(255,202,0,.18);
+    display:grid;place-items:center}
+  .kit-item .ic svg{width:21px;height:21px;stroke:#8a6b00;fill:none;stroke-width:1.8}
+  .kit-item h4{font-size:.98rem;color:var(--green-ink);margin-bottom:3px}
+  .kit-item p{font-size:.84rem;color:var(--muted)}
+  @media(max-width:820px){.kit{grid-template-columns:1fr;gap:30px}}
+
+  /* ENTREGAVEIS */
+  .deliver{background:var(--paper-2);border:1px solid var(--line);border-radius:24px;
+    padding:46px 40px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  .deliver .wm{right:-30px;top:-40px;width:220px;height:220px;opacity:.05}
+  .deliver-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;margin-bottom:34px;position:relative}
+  .deliver-head h3{font-size:1.5rem;color:var(--green-ink);max-width:18em}
+  .pill{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:.74rem;color:var(--green-deep);
+    background:rgba(1,149,65,.1);padding:8px 14px;border-radius:999px;white-space:nowrap}
+  .d-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;position:relative}
+  .d b{font-family:'Sora';font-weight:800;font-size:2.2rem;color:var(--green);line-height:1;display:block}
+  .d b i{font-style:normal;color:#bf9700}
+  .d span{font-size:.86rem;color:var(--muted);display:block;margin-top:8px}
+  @media(max-width:820px){.d-grid{grid-template-columns:1fr 1fr;gap:24px}}
+
+  .compliance{display:flex;gap:18px;align-items:flex-start;background:rgba(1,149,65,.06);
+    border:1px solid var(--line);border-left:4px solid var(--green);border-radius:14px;padding:22px 24px;margin-top:28px;position:relative}
+  .compliance svg{flex:none;width:26px;height:26px;stroke:var(--green-deep);fill:none;stroke-width:1.8;margin-top:2px}
+  .compliance h4{font-size:.98rem;color:var(--green-ink);margin-bottom:4px}
+  .compliance p{font-size:.88rem;color:var(--muted)}
+
+  /* INVEST */
+  .invest{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .icard{background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r);padding:28px 26px}
+  .icard .lbl{font-family:'JetBrains Mono',monospace;font-size:.72rem;letter-spacing:.1em;
+    color:var(--muted);text-transform:uppercase}
+  .icard h3{font-size:1.1rem;color:var(--green-ink);margin:8px 0 10px}
+  .icard p{font-size:.88rem;color:var(--muted)}
+  .icard.high{border-color:rgba(255,202,0,.55);box-shadow:0 18px 50px -30px rgba(255,202,0,.6)}
+
+  /* CTA FINAL */
+  .final{text-align:center;background:linear-gradient(180deg,var(--green) 0%,var(--green-deep) 100%);
+    color:#fff;border-radius:28px;padding:62px 32px;position:relative;overflow:hidden}
+  .final .wm{left:-40px;bottom:-50px;width:260px;height:260px}
+  .final .wm.r{left:auto;right:-40px;top:-50px;bottom:auto}
+  .final h2{font-size:clamp(1.8rem,3.8vw,2.6rem);color:#fff;position:relative;max-width:17em;margin:0 auto;z-index:1}
+  .final p{opacity:.9;max-width:36em;margin:16px auto 0;position:relative;font-size:1.05rem;z-index:1}
+  .final .hero-cta{justify-content:center;position:relative;z-index:1}
+
+  footer{padding:52px 0 40px;border-top:1px solid var(--line);margin-top:80px}
+  .foot-grid{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:24px}
+  footer small{color:var(--muted);font-size:.8rem;display:block;margin-top:10px}
+  .foot-links{display:flex;gap:24px;font-size:.84rem}
+  .foot-links a{color:var(--muted);text-decoration:none}
+  .foot-links a:hover{color:var(--green-deep)}
+
+
+  /* cores das marcas (logo + icone) aplicadas via CSS externo */
+  .lg1{fill:var(--green)}
+  .lg2{fill:var(--gold)}
+  .ic1{fill:var(--green)}
+  .ic2{fill:var(--gold)}
+  .wm .ic1{fill:var(--green)}
+  .wm .ic2{fill:var(--gold)}
+  .wm.on-green .ic1{fill:#ffffff}
+  .wm.on-green .ic2{fill:var(--gold)}
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <a href="#" aria-label="Instituto Pedro Lima"><svg class="logo-svg sm" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 977.55 192.25">
+  
+  <g>
+    <path class="lg1" d="M808.57,117.75c-3.57,10.48-6.78,21.13-10.04,31.78-2.01,5.82-3.25,11.85-6.34,16.51-.14.07-.23,0-.29-.19-.08-.57-.06-1.11.03-1.8.35-3.08,1.92-10.08,4.04-17.16,1.23-4.12,2.5-8.24,3.75-12.35,2.59-10.56,10.74-26.49.24-31.42-5.34-2.54-14.97-2.26-17.22-6.93-5.36-12.96,26.82-39.69,35.74-47.62,11.85-9.69,24.43-19.47,38.33-26.3,12.91-6.08,27.14-7.17,40.37-11.91C907.29,7.05,917.56.71,928.21,0c18.86-.02-1.63,17.69-7.46,22.04-26.75,22.42-56.23,42.02-84.84,62.17-13.92,10.48-18.55,26.53-23.28,43-4.86,15.41-10.53,30.67-15.41,46.07-1.58,5.02-6.53,18.21-7.48,18.85-.42.45-.45-.38-.08-2.33.25-1.3.68-3.08,1.27-5.21,6.74-24,16.73-47.53,22.29-71.79,1.14-5.73.62-7.27-1.08-3.97-1.33,2.67-2.2,5.09-3.45,8.57l-.12.35ZM789.41,99.39c7.75.19,15.46-1.72,22.46-5.4.33-.17.64-.37.94-.58,1.38-1.01,2.66-2.18,3.94-3.3.92-.84,1.7-1.69,2.56-2.44,2.29-2,9.72-11.57,11.75-13.99.79-1.29,5.44-4.73,5.3-1.72-.21,1.1-7.53,8.67-8.15,9.64-3.38,5.53,1.17,3.38,3.91,1.43,33.84-21.59,66.29-45.9,95.94-72.92,4.03-4.23-4.09-3.68-6.38-3.27-12.74,2.31-23.42,9.88-34.63,15.89-23.6,13.38-47.61,27.67-69.22,43.99-.4,0-.37-.43.11-1.11,4.17-4.79,9.47-8.82,14.71-12.46,13.79-9.35,28.2-17.33,42.09-26.43,1.17-1.15.52-2.34-.75-2.69-10.2-2.94-28.15,11.61-37.05,17.06-16.59,12.18-32.02,26.02-45.11,41.91-2.63,3.8-6.15,7.44-7.46,11.93-.33,2.61,2.41,4.43,4.79,4.44l.25.02Z"/>
+    <path class="lg2" d="M871.29,117.98c-3.62,3.6-7.07,14.12-13.6,10.77-2.05-1.24-2.85-4.38-4.68-5.1-2.28-.86-4.67.71-6.77,1.54-3.51,1.64-7.05,1.95-9.49,4.63-5.95,9.97-9.39,21.41-14.83,31.78-2,4.58-5.23,10.54,3.48,7.57,6.4-2.12,15.51-7.3,21.53-10.59,3.24-1.85,5.37-2.59,8.68-3.66,5.49-1.68,10.7-4.69,16.33-6.28,10.11-2.76,20-7.14,30.49-8.45,2.77-.66,10.12.59,4.11,3.39-11.92,2.24-22.95,5.99-34.17,10.35-11.66,3.79-23.08,9.04-34.2,14.41-6.99,3.94-12.95,8.76-21.11,10.42-2.52.52-4.76.47-5.75-.97-1.02-1.38-.45-4.2.39-6,1.96-4.12,3.87-8.13,6.11-12.3,5.24-11.73,10.97-23.37,16.4-35.05,9.13-20.47,17.78-40.47,24.41-61.75,2.07-4.28,1.55-17.77,7.38-17.76,1.07.01,2.78,1.2,3.11,2.03.48.97.3,1.9-.03,3.01-1.69,5.17-4.18,10.18-5.7,15.35-3.76,11.95-9.25,23.54-14.19,35.1-1.02,3.46-12.51,21.14-2.43,17.8,3.23-1.42,5.85-3.94,7.35-6.62,1.65-2.83,4.41-9.52,8.42-6.11,2.12,1.91.94,4.75.9,7.61.56,6.95,8.38-5.73,10.62-5.82,4.37-2.89,8.63,3.8,12.66.05,3.65-2.79,5.8-8.07,10.34-9.21,5.59.07,2.45,10.48,9.64,5.57,2.8-1.74,5.82-3.02,8.92-1.59,2.07.85,4.07,2.28,6.4,2.17,5.24-.54,9.3-6.08,15-5.87,15.52-.16,10.1,16.49,35.2,8.53,1.57-.41,3.7-1.3,5.1-.4,1.13,1.89-2.47,4.06-4.04,4.89-8.22,4.25-17.43,3.83-25.63-.14-4.33-1.59-6.67,2.54-8.68,5.78-3.06,4.4-7.74,8.84-13.49,8.01-5.01-.79-10.05-4.59-10.67-9.2-.56-2.41.52-5.98-1.74-7.62-7.08-2.1-9.03,9.39-14.98,10.75-1.67.42-3.45-.51-3.82-2.24-.63-2.06.96-7.25-.49-8.38-1.12-.62-2.39,1.2-3.06,2-3.17,3.37-4.83,17.6-11.56,14.12-2.5-1.62-1.2-7.52-3.83-8.66-1.51-.37-2.85.85-3.82,1.88l-.24.27ZM931.62,116.67c2.02-1.87,3.42-4.38,4.63-6.91,1.69-2.86.77-4.28-2.7-3.3-1.32.41-2.39,1.22-3.59,1.85-3.05,1.69-7.7,2.21-8.48,5.96-.53,6.83,6.24,6.61,9.92,2.61l.22-.21Z"/>
+  </g>
+  <g>
+    <path class="lg1" d="M0,56.55h4.68v109.4H0V56.55Z"/>
+    <path class="lg1" d="M25.25,99.04c0-27.27,16.22-44.66,45.5-44.66s45.5,17.4,45.5,44.66v66.91h-4.68v-66.91c0-24.76-14.39-40.48-40.81-40.48s-40.81,15.72-40.81,40.48v66.91h-4.68v-66.91Z"/>
+    <path class="lg1" d="M130.79,136h4.68c.5,17.73,14.05,27.93,34.63,27.93s34.62-10.54,34.62-27.93c0-18.4-16.73-20.58-33.96-23.08-18.23-2.68-37.13-5.35-37.13-27.27,0-18.73,14.55-31.28,36.63-31.28s36.13,12.04,36.63,30.28h-4.68c-.5-16.73-13.22-26.09-31.95-26.09s-31.95,9.7-31.95,27.1c0,18.4,16.73,20.58,33.96,23.08,18.23,2.68,37.13,5.35,37.13,27.27,0,19.74-15.56,32.12-39.31,32.12s-38.81-12.04-39.31-32.12Z"/>
+    <path class="lg1" d="M257.9,60.73h-40.65v-4.18h86.14v4.18h-40.81v105.21h-4.68V60.73Z"/>
+    <path class="lg1" d="M319.78,56.55h4.68v109.4h-4.68V56.55Z"/>
+    <path class="lg1" d="M381.5,60.73h-40.65v-4.18h86.14v4.18h-40.81v105.21h-4.68V60.73Z"/>
+    <path class="lg1" d="M440.2,123.46V56.55h4.68v66.91c0,24.76,14.39,40.48,40.81,40.48s40.48-16.06,40.48-40.48V56.55h4.52v66.91c0,27.27-16.06,44.66-45,44.66s-45.5-17.4-45.5-44.66Z"/>
+    <path class="lg1" d="M584.38,60.73h-40.65v-4.18h86.14v4.18h-40.81v105.21h-4.68V60.73Z"/>
+    <path class="lg1" d="M630.03,111.25c0-32.79,24.09-56.87,58.21-56.87s58.21,24.09,58.21,56.87-24.09,56.87-58.21,56.87-58.21-24.09-58.21-56.87ZM741.77,111.25c0-30.28-22.08-52.69-53.53-52.69s-53.53,22.41-53.53,52.69,22.08,52.69,53.53,52.69,53.53-22.41,53.53-52.69Z"/>
+  </g>
+</svg></a>
+    <div class="nav-links">
+      <a href="#oque">O Piloto</a>
+      <a href="#cronograma">Cronograma</a>
+      <a href="#curriculo">Currículo</a>
+      <a href="#kit">Kit do Aluno</a>
+      <a href="#prova">Entregáveis</a>
+      <a href="#apoiar" class="btn">Apoiar o piloto</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 107.04 105.3">
+  
+  <g>
+    <g>
+      <path class="ic1" d="M14.48,64.5c-1.95,5.74-3.72,11.57-5.5,17.41-1.1,3.19-1.78,6.49-3.47,9.04-.08.04-.13,0-.16-.11-.04-.31-.04-.61.02-.99.19-1.69,1.05-5.52,2.22-9.4.67-2.26,1.37-4.51,2.06-6.77,1.42-5.79,5.88-14.51.13-17.21-2.92-1.39-8.2-1.24-9.43-3.79-2.94-7.1,14.69-21.74,19.57-26.08,6.49-5.31,13.38-10.67,21-14.4,7.07-3.33,14.86-3.93,22.11-6.52C68.55,3.86,74.18.39,80.01,0c10.33-.01-.89,9.69-4.08,12.07-14.65,12.28-30.8,23.01-46.47,34.05-7.63,5.74-10.16,14.53-12.75,23.55-2.66,8.44-5.77,16.8-8.44,25.23-.87,2.75-3.58,9.98-4.09,10.33-.23.24-.25-.21-.04-1.28.14-.71.37-1.69.7-2.85,3.69-13.14,9.17-26.03,12.21-39.32.62-3.14.34-3.98-.59-2.17-.73,1.46-1.21,2.79-1.89,4.69l-.07.19ZM3.98,54.44c4.24.1,8.47-.94,12.3-2.96.18-.09.35-.2.52-.32.76-.55,1.46-1.19,2.16-1.81.5-.46.93-.92,1.4-1.34,1.26-1.1,5.33-6.34,6.43-7.66.43-.71,2.98-2.59,2.9-.94-.11.6-4.13,4.75-4.46,5.28-1.85,3.03.64,1.85,2.14.78,18.54-11.83,36.31-25.14,52.55-39.94,2.21-2.32-2.24-2.02-3.49-1.79-6.98,1.26-12.83,5.41-18.97,8.7-12.92,7.33-26.08,15.16-37.91,24.09-.22,0-.2-.24.06-.61,2.28-2.62,5.19-4.83,8.06-6.82,7.55-5.12,15.44-9.49,23.05-14.47.64-.63.28-1.28-.41-1.47-5.59-1.61-15.42,6.36-20.29,9.34-9.09,6.67-17.54,14.25-24.71,22.96-1.44,2.08-3.37,4.08-4.09,6.54-.18,1.43,1.32,2.43,2.62,2.43h.13Z"/>
+      <path class="ic2" d="M48.83,64.62c-1.98,1.97-3.87,7.74-7.45,5.9-1.12-.68-1.56-2.4-2.56-2.79-1.25-.47-2.56.39-3.71.85-1.92.9-3.86,1.07-5.2,2.54-3.26,5.46-5.14,11.73-8.12,17.41-1.1,2.51-2.87,5.77,1.9,4.15,3.5-1.16,8.5-4,11.79-5.8,1.77-1.01,2.94-1.42,4.76-2,3.01-.92,5.86-2.57,8.94-3.44,5.54-1.51,10.96-3.91,16.7-4.63,1.52-.36,5.54.33,2.25,1.86-6.53,1.22-12.57,3.28-18.72,5.67-6.39,2.08-12.64,4.95-18.73,7.89-3.83,2.16-7.09,4.8-11.56,5.71-1.38.29-2.61.26-3.15-.53-.56-.75-.24-2.3.22-3.28,1.07-2.26,2.12-4.45,3.35-6.74,2.87-6.42,6.01-12.8,8.99-19.2,5-11.21,9.74-22.17,13.37-33.82,1.14-2.34.85-9.73,4.04-9.73.59,0,1.52.66,1.71,1.11.26.53.17,1.04-.01,1.65-.93,2.83-2.29,5.58-3.12,8.41-2.06,6.54-5.06,12.89-7.77,19.23-.56,1.89-6.85,11.58-1.33,9.75,1.77-.78,3.2-2.16,4.03-3.63.9-1.55,2.42-5.22,4.61-3.35,1.16,1.05.51,2.6.49,4.17.31,3.81,4.59-3.14,5.82-3.19,2.39-1.59,4.73,2.08,6.94.03,2-1.53,3.18-4.42,5.67-5.05,3.06.04,1.34,5.74,5.28,3.05,1.53-.96,3.19-1.65,4.89-.87,1.13.47,2.23,1.25,3.51,1.19,2.87-.3,5.1-3.33,8.21-3.21,8.5-.09,5.53,9.03,19.28,4.67.86-.22,2.03-.71,2.79-.22.62,1.04-1.35,2.22-2.21,2.68-4.5,2.33-9.55,2.1-14.04-.08-2.37-.87-3.65,1.39-4.76,3.16-1.67,2.41-4.24,4.84-7.39,4.39-2.75-.43-5.51-2.52-5.84-5.04-.31-1.32.28-3.28-.96-4.18-3.88-1.15-4.95,5.14-8.21,5.89-.92.23-1.89-.28-2.09-1.23-.34-1.13.53-3.97-.27-4.59-.61-.34-1.31.66-1.68,1.09-1.73,1.85-2.65,9.64-6.33,7.74-1.37-.89-.66-4.12-2.1-4.74-.83-.2-1.56.47-2.09,1.03l-.13.15ZM81.88,63.9c1.11-1.03,1.87-2.4,2.53-3.79.93-1.56.42-2.35-1.48-1.81-.72.22-1.31.67-1.97,1.01-1.67.93-4.22,1.21-4.64,3.27-.29,3.74,3.42,3.62,5.43,1.43l.12-.12Z"/>
+    </g>
+  </g>
+</svg></div>
+  <div class="wrap hero-grid">
+    <div class="reveal in">
+      <span class="eyebrow"><span class="dot"></span>Projeto Piloto · Prova de Conceito</span>
+      <h1>Dia Zero<br><em>no kartódromo</em>
+        <span class="tag-sub">A primeira turma do Laboratório sobre Rodas</span>
+      </h1>
+      <p class="lead">Um dia inteiro de imersão em mecânica e ciência aplicada, seguido de
+      pista para validar na prática o que foi aprendido. É a versão de teste do Laboratório
+      sobre Rodas: roda enxuta, gera material e prova real, e dá ao Instituto a base para
+      formatar o projeto completo e levá-lo à captação.</p>
+      <div class="hero-cta">
+        <a href="#apoiar" class="btn gold">Apoiar a turma piloto</a>
+        <a href="#cronograma" class="btn ghost">Ver o cronograma do dia</a>
+      </div>
+      <div class="pilot-tags">
+        <span class="ptag"><b>&rsaquo;</b> 1 dia de imersão</span>
+        <span class="ptag"><b>&rsaquo;</b> ~10 jovens da rede pública</span>
+        <span class="ptag"><b>&rsaquo;</b> teoria + pista + kit</span>
+        <span class="ptag"><b>&rsaquo;</b> ODS 4 · Agenda 2030</span>
+      </div>
+    </div>
+
+    <aside class="hero-card reveal in">
+      <div class="wm on-green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 107.04 105.3">
+  
+  <g>
+    <g>
+      <path class="ic1" d="M14.48,64.5c-1.95,5.74-3.72,11.57-5.5,17.41-1.1,3.19-1.78,6.49-3.47,9.04-.08.04-.13,0-.16-.11-.04-.31-.04-.61.02-.99.19-1.69,1.05-5.52,2.22-9.4.67-2.26,1.37-4.51,2.06-6.77,1.42-5.79,5.88-14.51.13-17.21-2.92-1.39-8.2-1.24-9.43-3.79-2.94-7.1,14.69-21.74,19.57-26.08,6.49-5.31,13.38-10.67,21-14.4,7.07-3.33,14.86-3.93,22.11-6.52C68.55,3.86,74.18.39,80.01,0c10.33-.01-.89,9.69-4.08,12.07-14.65,12.28-30.8,23.01-46.47,34.05-7.63,5.74-10.16,14.53-12.75,23.55-2.66,8.44-5.77,16.8-8.44,25.23-.87,2.75-3.58,9.98-4.09,10.33-.23.24-.25-.21-.04-1.28.14-.71.37-1.69.7-2.85,3.69-13.14,9.17-26.03,12.21-39.32.62-3.14.34-3.98-.59-2.17-.73,1.46-1.21,2.79-1.89,4.69l-.07.19ZM3.98,54.44c4.24.1,8.47-.94,12.3-2.96.18-.09.35-.2.52-.32.76-.55,1.46-1.19,2.16-1.81.5-.46.93-.92,1.4-1.34,1.26-1.1,5.33-6.34,6.43-7.66.43-.71,2.98-2.59,2.9-.94-.11.6-4.13,4.75-4.46,5.28-1.85,3.03.64,1.85,2.14.78,18.54-11.83,36.31-25.14,52.55-39.94,2.21-2.32-2.24-2.02-3.49-1.79-6.98,1.26-12.83,5.41-18.97,8.7-12.92,7.33-26.08,15.16-37.91,24.09-.22,0-.2-.24.06-.61,2.28-2.62,5.19-4.83,8.06-6.82,7.55-5.12,15.44-9.49,23.05-14.47.64-.63.28-1.28-.41-1.47-5.59-1.61-15.42,6.36-20.29,9.34-9.09,6.67-17.54,14.25-24.71,22.96-1.44,2.08-3.37,4.08-4.09,6.54-.18,1.43,1.32,2.43,2.62,2.43h.13Z"/>
+      <path class="ic2" d="M48.83,64.62c-1.98,1.97-3.87,7.74-7.45,5.9-1.12-.68-1.56-2.4-2.56-2.79-1.25-.47-2.56.39-3.71.85-1.92.9-3.86,1.07-5.2,2.54-3.26,5.46-5.14,11.73-8.12,17.41-1.1,2.51-2.87,5.77,1.9,4.15,3.5-1.16,8.5-4,11.79-5.8,1.77-1.01,2.94-1.42,4.76-2,3.01-.92,5.86-2.57,8.94-3.44,5.54-1.51,10.96-3.91,16.7-4.63,1.52-.36,5.54.33,2.25,1.86-6.53,1.22-12.57,3.28-18.72,5.67-6.39,2.08-12.64,4.95-18.73,7.89-3.83,2.16-7.09,4.8-11.56,5.71-1.38.29-2.61.26-3.15-.53-.56-.75-.24-2.3.22-3.28,1.07-2.26,2.12-4.45,3.35-6.74,2.87-6.42,6.01-12.8,8.99-19.2,5-11.21,9.74-22.17,13.37-33.82,1.14-2.34.85-9.73,4.04-9.73.59,0,1.52.66,1.71,1.11.26.53.17,1.04-.01,1.65-.93,2.83-2.29,5.58-3.12,8.41-2.06,6.54-5.06,12.89-7.77,19.23-.56,1.89-6.85,11.58-1.33,9.75,1.77-.78,3.2-2.16,4.03-3.63.9-1.55,2.42-5.22,4.61-3.35,1.16,1.05.51,2.6.49,4.17.31,3.81,4.59-3.14,5.82-3.19,2.39-1.59,4.73,2.08,6.94.03,2-1.53,3.18-4.42,5.67-5.05,3.06.04,1.34,5.74,5.28,3.05,1.53-.96,3.19-1.65,4.89-.87,1.13.47,2.23,1.25,3.51,1.19,2.87-.3,5.1-3.33,8.21-3.21,8.5-.09,5.53,9.03,19.28,4.67.86-.22,2.03-.71,2.79-.22.62,1.04-1.35,2.22-2.21,2.68-4.5,2.33-9.55,2.1-14.04-.08-2.37-.87-3.65,1.39-4.76,3.16-1.67,2.41-4.24,4.84-7.39,4.39-2.75-.43-5.51-2.52-5.84-5.04-.31-1.32.28-3.28-.96-4.18-3.88-1.15-4.95,5.14-8.21,5.89-.92.23-1.89-.28-2.09-1.23-.34-1.13.53-3.97-.27-4.59-.61-.34-1.31.66-1.68,1.09-1.73,1.85-2.65,9.64-6.33,7.74-1.37-.89-.66-4.12-2.1-4.74-.83-.2-1.56.47-2.09,1.03l-.13.15ZM81.88,63.9c1.11-1.03,1.87-2.4,2.53-3.79.93-1.56.42-2.35-1.48-1.81-.72.22-1.31.67-1.97,1.01-1.67.93-4.22,1.21-4.64,3.27-.29,3.74,3.42,3.62,5.43,1.43l.12-.12Z"/>
+    </g>
+  </g>
+</svg></div>
+      <div class="kicker">// POR QUE UM PILOTO</div>
+      <h3>Provar antes de escalar</h3>
+      <ul>
+        <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Testa a metodologia STEM num formato real, de baixo custo</li>
+        <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Gera o primeiro banco de conteúdo e cases do Instituto</li>
+        <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Produz prova de impacto para o mídia kit e a LIE</li>
+        <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Define o currículo definitivo antes de buscar verba grande</li>
+      </ul>
+    </aside>
+  </div>
+</header>
+
+<!-- O QUE É -->
+<section id="oque">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">O que é o Dia Zero</div>
+      <h2>Uma imersão de um dia que vira o esqueleto do projeto completo</h2>
+      <p>O piloto condensa a essência do Laboratório sobre Rodas em uma única jornada: ensinar
+      ciência pelo kart, comprovar na pista e marcar a experiência com um kit que o jovem leva
+      para casa. O Instituto sai do dia com currículo testado, conteúdo gravado e métricas reais.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l9 4.5-9 4.5-9-4.5L12 3z"/><path d="M3 12l9 4.5 9-4.5"/></svg></div>
+        <h3>Aprender</h3>
+        <p>Manhã de imersão em mecânica, física e telemetria — conteúdo STEM abstrato traduzido
+        pela linguagem concreta do kart.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M5 17a2 2 0 104 0 2 2 0 00-4 0zM15 17a2 2 0 104 0 2 2 0 00-4 0z"/><path d="M5 17h10l3-5-2-4H8L5 12"/></svg></div>
+        <h3>Validar na pista</h3>
+        <p>À tarde, os alunos vão ao kart e sentem na prática cada conceito: aderência, freada,
+        traçado e leitura de tempo de volta.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M20 7h-3V4H7v3H4l8 5 8-5z"/><path d="M4 7v9a2 2 0 002 2h12a2 2 0 002-2V7"/></svg></div>
+        <h3>Levar pra casa</h3>
+        <p>Cada jovem recebe um kit do Instituto que prolonga a experiência e transforma o dia
+        em pertencimento — e em prova social.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BAND -->
+<section class="band">
+  <div class="wm on-green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 107.04 105.3">
+  
+  <g>
+    <g>
+      <path class="ic1" d="M14.48,64.5c-1.95,5.74-3.72,11.57-5.5,17.41-1.1,3.19-1.78,6.49-3.47,9.04-.08.04-.13,0-.16-.11-.04-.31-.04-.61.02-.99.19-1.69,1.05-5.52,2.22-9.4.67-2.26,1.37-4.51,2.06-6.77,1.42-5.79,5.88-14.51.13-17.21-2.92-1.39-8.2-1.24-9.43-3.79-2.94-7.1,14.69-21.74,19.57-26.08,6.49-5.31,13.38-10.67,21-14.4,7.07-3.33,14.86-3.93,22.11-6.52C68.55,3.86,74.18.39,80.01,0c10.33-.01-.89,9.69-4.08,12.07-14.65,12.28-30.8,23.01-46.47,34.05-7.63,5.74-10.16,14.53-12.75,23.55-2.66,8.44-5.77,16.8-8.44,25.23-.87,2.75-3.58,9.98-4.09,10.33-.23.24-.25-.21-.04-1.28.14-.71.37-1.69.7-2.85,3.69-13.14,9.17-26.03,12.21-39.32.62-3.14.34-3.98-.59-2.17-.73,1.46-1.21,2.79-1.89,4.69l-.07.19ZM3.98,54.44c4.24.1,8.47-.94,12.3-2.96.18-.09.35-.2.52-.32.76-.55,1.46-1.19,2.16-1.81.5-.46.93-.92,1.4-1.34,1.26-1.1,5.33-6.34,6.43-7.66.43-.71,2.98-2.59,2.9-.94-.11.6-4.13,4.75-4.46,5.28-1.85,3.03.64,1.85,2.14.78,18.54-11.83,36.31-25.14,52.55-39.94,2.21-2.32-2.24-2.02-3.49-1.79-6.98,1.26-12.83,5.41-18.97,8.7-12.92,7.33-26.08,15.16-37.91,24.09-.22,0-.2-.24.06-.61,2.28-2.62,5.19-4.83,8.06-6.82,7.55-5.12,15.44-9.49,23.05-14.47.64-.63.28-1.28-.41-1.47-5.59-1.61-15.42,6.36-20.29,9.34-9.09,6.67-17.54,14.25-24.71,22.96-1.44,2.08-3.37,4.08-4.09,6.54-.18,1.43,1.32,2.43,2.62,2.43h.13Z"/>
+      <path class="ic2" d="M48.83,64.62c-1.98,1.97-3.87,7.74-7.45,5.9-1.12-.68-1.56-2.4-2.56-2.79-1.25-.47-2.56.39-3.71.85-1.92.9-3.86,1.07-5.2,2.54-3.26,5.46-5.14,11.73-8.12,17.41-1.1,2.51-2.87,5.77,1.9,4.15,3.5-1.16,8.5-4,11.79-5.8,1.77-1.01,2.94-1.42,4.76-2,3.01-.92,5.86-2.57,8.94-3.44,5.54-1.51,10.96-3.91,16.7-4.63,1.52-.36,5.54.33,2.25,1.86-6.53,1.22-12.57,3.28-18.72,5.67-6.39,2.08-12.64,4.95-18.73,7.89-3.83,2.16-7.09,4.8-11.56,5.71-1.38.29-2.61.26-3.15-.53-.56-.75-.24-2.3.22-3.28,1.07-2.26,2.12-4.45,3.35-6.74,2.87-6.42,6.01-12.8,8.99-19.2,5-11.21,9.74-22.17,13.37-33.82,1.14-2.34.85-9.73,4.04-9.73.59,0,1.52.66,1.71,1.11.26.53.17,1.04-.01,1.65-.93,2.83-2.29,5.58-3.12,8.41-2.06,6.54-5.06,12.89-7.77,19.23-.56,1.89-6.85,11.58-1.33,9.75,1.77-.78,3.2-2.16,4.03-3.63.9-1.55,2.42-5.22,4.61-3.35,1.16,1.05.51,2.6.49,4.17.31,3.81,4.59-3.14,5.82-3.19,2.39-1.59,4.73,2.08,6.94.03,2-1.53,3.18-4.42,5.67-5.05,3.06.04,1.34,5.74,5.28,3.05,1.53-.96,3.19-1.65,4.89-.87,1.13.47,2.23,1.25,3.51,1.19,2.87-.3,5.1-3.33,8.21-3.21,8.5-.09,5.53,9.03,19.28,4.67.86-.22,2.03-.71,2.79-.22.62,1.04-1.35,2.22-2.21,2.68-4.5,2.33-9.55,2.1-14.04-.08-2.37-.87-3.65,1.39-4.76,3.16-1.67,2.41-4.24,4.84-7.39,4.39-2.75-.43-5.51-2.52-5.84-5.04-.31-1.32.28-3.28-.96-4.18-3.88-1.15-4.95,5.14-8.21,5.89-.92.23-1.89-.28-2.09-1.23-.34-1.13.53-3.97-.27-4.59-.61-.34-1.31.66-1.68,1.09-1.73,1.85-2.65,9.64-6.33,7.74-1.37-.89-.66-4.12-2.1-4.74-.83-.2-1.56.47-2.09,1.03l-.13.15ZM81.88,63.9c1.11-1.03,1.87-2.4,2.53-3.79.93-1.56.42-2.35-1.48-1.81-.72.22-1.31.67-1.97,1.01-1.67.93-4.22,1.21-4.64,3.27-.29,3.74,3.42,3.62,5.43,1.43l.12-.12Z"/>
+    </g>
+  </g>
+</svg></div>
+  <div class="wrap reveal">
+    <div class="sec-tag">A lógica do piloto</div>
+    <h2>O conteúdo gera a prova; a prova converte a captação.</h2>
+    <p>O Dia Zero é desenhado para que cada momento vire material multiuso — vídeo de massa,
+    depoimento de engajamento e dado de autoridade. Nada é produzido uma vez só: a mesma imersão
+    alimenta as redes do Instituto, o relatório de impacto e o mídia kit que leva marcas à mesa.</p>
+  </div>
+</section>
+
+<!-- CRONOGRAMA -->
+<section id="cronograma">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">Cronograma do dia</div>
+      <h2>Como se desenha um Dia Zero no kartódromo</h2>
+      <p>Roteiro-referência de uma imersão completa. Cada bloco já indica o tipo de captação de
+      conteúdo prevista, para que a equipe vá a campo com a shot list definida.</p>
+    </div>
+    <div class="timeline reveal">
+      <div class="slot"><div class="time">08:30<span class="tag humano">Acolhida</span></div>
+        <div class="body"><h4>Chegada, café e boas-vindas</h4>
+          <p>Recepção dos jovens, entrega do crachá e do kit, alinhamento de segurança e
+          assinatura de presença. Apresentação do Instituto e da jornada do dia.</p>
+          <span class="cap">Captação: chegada, expectativas, primeiros depoimentos</span></div></div>
+      <div class="slot"><div class="time">09:00<span class="tag teoria">Teoria</span></div>
+        <div class="body"><h4>Aula 1 — Anatomia do kart</h4>
+          <p>Tour guiado pelo kart real: chassi, motor, freios, pneus e direção. O que cada peça
+          faz e por que existe. A mecânica deixa de ser caixa-preta.</p>
+          <span class="cap">Captação: hands-on com as peças, curiosidade no rosto</span></div></div>
+      <div class="slot"><div class="time">10:15<span class="tag teoria">Teoria</span></div>
+        <div class="body"><h4>Aula 2 — A física que te faz mais rápido</h4>
+          <p>Atrito, aderência, força centrípeta e transferência de peso explicados com
+          experimentos simples. Por que frear antes da curva ganha tempo.</p>
+          <span class="cap">Captação: experimentos, "momento aha", quadro/diagramas</span></div></div>
+      <div class="slot"><div class="time">11:30<span class="tag teoria">Dados</span></div>
+        <div class="body"><h4>Aula 3 — Lendo o tempo de volta</h4>
+          <p>Introdução à telemetria: o que os números dizem sobre uma volta. Como dado vira
+          decisão — a ponte com a cultura orientada a dados do ecossistema.</p>
+          <span class="cap">Captação: tela de telemetria, jovens analisando dados</span></div></div>
+      <div class="slot"><div class="time">12:30<span class="tag humano">Pausa</span></div>
+        <div class="body"><h4>Almoço e conversa com o embaixador</h4>
+          <p>Refeição coletiva e bate-papo com Pedro Lima (ou mentor convidado): trajetória,
+          disciplina e o que o esporte ensina além da pista.</p>
+          <span class="cap">Captação: mentoria, troca informal, inspiração</span></div></div>
+      <div class="slot"><div class="time">14:00<span class="tag pista">Pista</span></div>
+        <div class="body"><h4>Briefing de segurança e equipamento</h4>
+          <p>Capacete, balaclava, regras de pista e bandeiras. A teoria da manhã agora tem
+          consequência prática e responsabilidade.</p>
+          <span class="cap">Captação: vestir o equipamento, tensão boa, preparação</span></div></div>
+      <div class="slot"><div class="time">14:30<span class="tag pista">Pista</span></div>
+        <div class="body"><h4>Baterias no kart — validando a teoria</h4>
+          <p>Os jovens andam de kart em grupos, aplicando o que aprenderam: ponto de freada,
+          traçado e constância. Cada volta cronometrada vira feedback.</p>
+          <span class="cap">Captação: ação na pista, reação pós-volta, evolução de tempos</span></div></div>
+      <div class="slot"><div class="time">16:30<span class="tag pista">Dados</span></div>
+        <div class="body"><h4>Debrief — o que os dados mostraram</h4>
+          <p>Revisão dos tempos de volta de cada um: onde melhoraram, o que a física explica.
+          Fecha o ciclo teoria &rarr; prática &rarr; dado.</p>
+          <span class="cap">Captação: análise em grupo, orgulho da evolução</span></div></div>
+      <div class="slot"><div class="time">17:15<span class="tag humano">Encerramento</span></div>
+        <div class="body"><h4>Certificado, foto oficial e despedida</h4>
+          <p>Entrega do certificado de participação, foto da turma e depoimentos finais.
+          O jovem sai com pertencimento — e o Instituto, com o case.</p>
+          <span class="cap">Captação: entrega do certificado, foto-símbolo, depoimento de fecho</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CURRICULO -->
+<section id="curriculo">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">Currículo do piloto</div>
+      <h2>Quatro módulos, ciência de verdade pela linguagem do kart</h2>
+      <p>O conteúdo segue a metodologia STEM do Instituto: física, mecânica e matemática
+      aplicada via kartismo de base. Cada módulo conecta uma ideia abstrata a uma sensação
+      concreta na pista.</p>
+    </div>
+    <div class="curr">
+      <div class="mod reveal"><div class="num">01</div>
+        <h3>Mecânica — como o kart funciona</h3>
+        <p>Sistemas do kart e a função de cada componente. Engenharia tangível, sem jargão.</p>
+        <div class="learn"><span>Chassi e rigidez</span><span>Motor e transmissão</span><span>Freios</span><span>Pneus e pressão</span></div></div>
+      <div class="mod reveal"><div class="num">02</div>
+        <h3>Física — por que se ganha tempo</h3>
+        <p>As forças que governam uma volta rápida, traduzidas em experimentos simples.</p>
+        <div class="learn"><span>Atrito e aderência</span><span>Força centrípeta</span><span>Transferência de peso</span><span>Inércia</span></div></div>
+      <div class="mod reveal"><div class="num">03</div>
+        <h3>Matemática — a corrida é número</h3>
+        <p>Tempo, velocidade e distância no contexto da pista. Matemática que se sente no cronômetro.</p>
+        <div class="learn"><span>Tempo de volta</span><span>Velocidade média</span><span>Proporção</span><span>Leitura de gráficos</span></div></div>
+      <div class="mod reveal"><div class="num">04</div>
+        <h3>Dados — decidir com telemetria</h3>
+        <p>Introdução à cultura orientada a dados: transformar números em decisão e melhoria.</p>
+        <div class="learn"><span>Telemetria básica</span><span>Comparar voltas</span><span>Ponto de freada</span><span>Consistência</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- KIT -->
+<section id="kit">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">O Kit do Aluno</div>
+      <h2>O que cada jovem leva pra casa</h2>
+      <p>O kit prolonga a experiência para além do dia e cria pertencimento — além de ser uma
+      vitrine elegante para a marca patrocinadora, presente em cada peça.</p>
+    </div>
+    <div class="kit">
+      <div class="kit-visual reveal">
+        <div class="wm on-green"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 107.04 105.3">
+  
+  <g>
+    <g>
+      <path class="ic1" d="M14.48,64.5c-1.95,5.74-3.72,11.57-5.5,17.41-1.1,3.19-1.78,6.49-3.47,9.04-.08.04-.13,0-.16-.11-.04-.31-.04-.61.02-.99.19-1.69,1.05-5.52,2.22-9.4.67-2.26,1.37-4.51,2.06-6.77,1.42-5.79,5.88-14.51.13-17.21-2.92-1.39-8.2-1.24-9.43-3.79-2.94-7.1,14.69-21.74,19.57-26.08,6.49-5.31,13.38-10.67,21-14.4,7.07-3.33,14.86-3.93,22.11-6.52C68.55,3.86,74.18.39,80.01,0c10.33-.01-.89,9.69-4.08,12.07-14.65,12.28-30.8,23.01-46.47,34.05-7.63,5.74-10.16,14.53-12.75,23.55-2.66,8.44-5.77,16.8-8.44,25.23-.87,2.75-3.58,9.98-4.09,10.33-.23.24-.25-.21-.04-1.28.14-.71.37-1.69.7-2.85,3.69-13.14,9.17-26.03,12.21-39.32.62-3.14.34-3.98-.59-2.17-.73,1.46-1.21,2.79-1.89,4.69l-.07.19ZM3.98,54.44c4.24.1,8.47-.94,12.3-2.96.18-.09.35-.2.52-.32.76-.55,1.46-1.19,2.16-1.81.5-.46.93-.92,1.4-1.34,1.26-1.1,5.33-6.34,6.43-7.66.43-.71,2.98-2.59,2.9-.94-.11.6-4.13,4.75-4.46,5.28-1.85,3.03.64,1.85,2.14.78,18.54-11.83,36.31-25.14,52.55-39.94,2.21-2.32-2.24-2.02-3.49-1.79-6.98,1.26-12.83,5.41-18.97,8.7-12.92,7.33-26.08,15.16-37.91,24.09-.22,0-.2-.24.06-.61,2.28-2.62,5.19-4.83,8.06-6.82,7.55-5.12,15.44-9.49,23.05-14.47.64-.63.28-1.28-.41-1.47-5.59-1.61-15.42,6.36-20.29,9.34-9.09,6.67-17.54,14.25-24.71,22.96-1.44,2.08-3.37,4.08-4.09,6.54-.18,1.43,1.32,2.43,2.62,2.43h.13Z"/>
+      <path class="ic2" d="M48.83,64.62c-1.98,1.97-3.87,7.74-7.45,5.9-1.12-.68-1.56-2.4-2.56-2.79-1.25-.47-2.56.39-3.71.85-1.92.9-3.86,1.07-5.2,2.54-3.26,5.46-5.14,11.73-8.12,17.41-1.1,2.51-2.87,5.77,1.9,4.15,3.5-1.16,8.5-4,11.79-5.8,1.77-1.01,2.94-1.42,4.76-2,3.01-.92,5.86-2.57,8.94-3.44,5.54-1.51,10.96-3.91,16.7-4.63,1.52-.36,5.54.33,2.25,1.86-6.53,1.22-12.57,3.28-18.72,5.67-6.39,2.08-12.64,4.95-18.73,7.89-3.83,2.16-7.09,4.8-11.56,5.71-1.38.29-2.61.26-3.15-.53-.56-.75-.24-2.3.22-3.28,1.07-2.26,2.12-4.45,3.35-6.74,2.87-6.42,6.01-12.8,8.99-19.2,5-11.21,9.74-22.17,13.37-33.82,1.14-2.34.85-9.73,4.04-9.73.59,0,1.52.66,1.71,1.11.26.53.17,1.04-.01,1.65-.93,2.83-2.29,5.58-3.12,8.41-2.06,6.54-5.06,12.89-7.77,19.23-.56,1.89-6.85,11.58-1.33,9.75,1.77-.78,3.2-2.16,4.03-3.63.9-1.55,2.42-5.22,4.61-3.35,1.16,1.05.51,2.6.49,4.17.31,3.81,4.59-3.14,5.82-3.19,2.39-1.59,4.73,2.08,6.94.03,2-1.53,3.18-4.42,5.67-5.05,3.06.04,1.34,5.74,5.28,3.05,1.53-.96,3.19-1.65,4.89-.87,1.13.47,2.23,1.25,3.51,1.19,2.87-.3,5.1-3.33,8.21-3.21,8.5-.09,5.53,9.03,19.28,4.67.86-.22,2.03-.71,2.79-.22.62,1.04-1.35,2.22-2.21,2.68-4.5,2.33-9.55,2.1-14.04-.08-2.37-.87-3.65,1.39-4.76,3.16-1.67,2.41-4.24,4.84-7.39,4.39-2.75-.43-5.51-2.52-5.84-5.04-.31-1.32.28-3.28-.96-4.18-3.88-1.15-4.95,5.14-8.21,5.89-.92.23-1.89-.28-2.09-1.23-.34-1.13.53-3.97-.27-4.59-.61-.34-1.31.66-1.68,1.09-1.73,1.85-2.65,9.64-6.33,7.74-1.37-.89-.66-4.12-2.1-4.74-.83-.2-1.56.47-2.09,1.03l-.13.15ZM81.88,63.9c1.11-1.03,1.87-2.4,2.53-3.79.93-1.56.42-2.35-1.48-1.81-.72.22-1.31.67-1.97,1.01-1.67.93-4.22,1.21-4.64,3.27-.29,3.74,3.42,3.62,5.43,1.43l.12-.12Z"/>
+    </g>
+  </g>
+</svg></div>
+        <div class="kicker">// KIT INSTITUTO · DIA ZERO</div>
+        <h3>Mais que um brinde: um símbolo de pertencimento</h3>
+        <p>Cada item carrega a identidade do Instituto e do patrocinador, virando mídia espontânea
+        que o jovem leva para a escola e para as redes.</p>
+      </div>
+      <div class="kit-list">
+        <div class="kit-item reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M6 2l1.5 4h9L18 2M4 6h16l-1.5 14H5.5L4 6z"/></svg></div>
+          <div><h4>Camiseta e boné da turma</h4><p>Uniforme do dia, co-branded Instituto + patrocinador.</p></div></div>
+        <div class="kit-item reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M5 3h14v18l-7-4-7 4V3z"/></svg></div>
+          <div><h4>Certificado de participação</h4><p>Documento físico que reconhece a conclusão da imersão.</p></div></div>
+        <div class="kit-item reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg></div>
+          <div><h4>Caderno do piloto</h4><p>Material didático ilustrado com os conceitos do dia para revisar.</p></div></div>
+        <div class="kit-item reveal"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <div><h4>Foto oficial impressa</h4><p>Registro da turma na pista — recordação e prova de pertencimento.</p></div></div>
+        <div class="kit-item reveal"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></div>
+          <div><h4>Ficha de tempos de volta</h4><p>Os dados reais do jovem na pista — o STEM que ele mesmo produziu.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENTREGAVEIS -->
+<section id="prova">
+  <div class="wrap reveal">
+    <div class="deliver">
+      <div class="wm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 107.04 105.3">
+  
+  <g>
+    <g>
+      <path class="ic1" d="M14.48,64.5c-1.95,5.74-3.72,11.57-5.5,17.41-1.1,3.19-1.78,6.49-3.47,9.04-.08.04-.13,0-.16-.11-.04-.31-.04-.61.02-.99.19-1.69,1.05-5.52,2.22-9.4.67-2.26,1.37-4.51,2.06-6.77,1.42-5.79,5.88-14.51.13-17.21-2.92-1.39-8.2-1.24-9.43-3.79-2.94-7.1,14.69-21.74,19.57-26.08,6.49-5.31,13.38-10.67,21-14.4,7.07-3.33,14.86-3.93,22.11-6.52C68.55,3.86,74.18.39,80.01,0c10.33-.01-.89,9.69-4.08,12.07-14.65,12.28-30.8,23.01-46.47,34.05-7.63,5.74-10.16,14.53-12.75,23.55-2.66,8.44-5.77,16.8-8.44,25.23-.87,2.75-3.58,9.98-4.09,10.33-.23.24-.25-.21-.04-1.28.14-.71.37-1.69.7-2.85,3.69-13.14,9.17-26.03,12.21-39.32.62-3.14.34-3.98-.59-2.17-.73,1.46-1.21,2.79-1.89,4.69l-.07.19ZM3.98,54.44c4.24.1,8.47-.94,12.3-2.96.18-.09.35-.2.52-.32.76-.55,1.46-1.19,2.16-1.81.5-.46.93-.92,1.4-1.34,1.26-1.1,5.33-6.34,6.43-7.66.43-.71,2.98-2.59,2.9-.94-.11.6-4.13,4.75-4.46,5.28-1.85,3.03.64,1.85,2.14.78,18.54-11.83,36.31-25.14,52.55-39.94,2.21-2.32-2.24-2.02-3.49-1.79-6.98,1.26-12.83,5.41-18.97,8.7-12.92,7.33-26.08,15.16-37.91,24.09-.22,0-.2-.24.06-.61,2.28-2.62,5.19-4.83,8.06-6.82,7.55-5.12,15.44-9.49,23.05-14.47.64-.63.28-1.28-.41-1.47-5.59-1.61-15.42,6.36-20.29,9.34-9.09,6.67-17.54,14.25-24.71,22.96-1.44,2.08-3.37,4.08-4.09,6.54-.18,1.43,1.32,2.43,2.62,2.43h.13Z"/>
+      <path class="ic2" d="M48.83,64.62c-1.98,1.97-3.87,7.74-7.45,5.9-1.12-.68-1.56-2.4-2.56-2.79-1.25-.47-2.56.39-3.71.85-1.92.9-3.86,1.07-5.2,2.54-3.26,5.46-5.14,11.73-8.12,17.41-1.1,2.51-2.87,5.77,1.9,4.15,3.5-1.16,8.5-4,11.79-5.8,1.77-1.01,2.94-1.42,4.76-2,3.01-.92,5.86-2.57,8.94-3.44,5.54-1.51,10.96-3.91,16.7-4.63,1.52-.36,5.54.33,2.25,1.86-6.53,1.22-12.57,3.28-18.72,5.67-6.39,2.08-12.64,4.95-18.73,7.89-3.83,2.16-7.09,4.8-11.56,5.71-1.38.29-2.61.26-3.15-.53-.56-.75-.24-2.3.22-3.28,1.07-2.26,2.12-4.45,3.35-6.74,2.87-6.42,6.01-12.8,8.99-19.2,5-11.21,9.74-22.17,13.37-33.82,1.14-2.34.85-9.73,4.04-9.73.59,0,1.52.66,1.71,1.11.26.53.17,1.04-.01,1.65-.93,2.83-2.29,5.58-3.12,8.41-2.06,6.54-5.06,12.89-7.77,19.23-.56,1.89-6.85,11.58-1.33,9.75,1.77-.78,3.2-2.16,4.03-3.63.9-1.55,2.42-5.22,4.61-3.35,1.16,1.05.51,2.6.49,4.17.31,3.81,4.59-3.14,5.82-3.19,2.39-1.59,4.73,2.08,6.94.03,2-1.53,3.18-4.42,5.67-5.05,3.06.04,1.34,5.74,5.28,3.05,1.53-.96,3.19-1.65,4.89-.87,1.13.47,2.23,1.25,3.51,1.19,2.87-.3,5.1-3.33,8.21-3.21,8.5-.09,5.53,9.03,19.28,4.67.86-.22,2.03-.71,2.79-.22.62,1.04-1.35,2.22-2.21,2.68-4.5,2.33-9.55,2.1-14.04-.08-2.37-.87-3.65,1.39-4.76,3.16-1.67,2.41-4.24,4.84-7.39,4.39-2.75-.43-5.51-2.52-5.84-5.04-.31-1.32.28-3.28-.96-4.18-3.88-1.15-4.95,5.14-8.21,5.89-.92.23-1.89-.28-2.09-1.23-.34-1.13.53-3.97-.27-4.59-.61-.34-1.31.66-1.68,1.09-1.73,1.85-2.65,9.64-6.33,7.74-1.37-.89-.66-4.12-2.1-4.74-.83-.2-1.56.47-2.09,1.03l-.13.15ZM81.88,63.9c1.11-1.03,1.87-2.4,2.53-3.79.93-1.56.42-2.35-1.48-1.81-.72.22-1.31.67-1.97,1.01-1.67.93-4.22,1.21-4.64,3.27-.29,3.74,3.42,3.62,5.43,1.43l.12-.12Z"/>
+    </g>
+  </g>
+</svg></div>
+      <div class="deliver-head">
+        <h3>O que o Instituto colhe de um único Dia Zero</h3>
+        <span class="pill">// ativos para captação</span>
+      </div>
+      <div class="d-grid">
+        <div class="d"><b>~10</b><span>jovens atendidos e documentados no primeiro case</span></div>
+        <div class="d"><b>1</b><span>dia de captação que abastece massa, engajamento e autoridade</span></div>
+        <div class="d"><b>+30</b><span>peças de conteúdo potenciais (cortes, depoimentos, fotos, aéreas)</span></div>
+        <div class="d"><b>100<i>%</i></b><span>do dia desenhado como prova auditável para LIE e ESG</span></div>
+      </div>
+      <div class="compliance">
+        <svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+        <div>
+          <h4>Captação de imagem com responsabilidade</h4>
+          <p>Toda gravação com menores exige autorização de imagem assinada pelos responsáveis legais
+          antes do evento. A direção editorial prioriza o protagonismo dos jovens, nunca a exposição
+          vulnerável — princípio inegociável da operação de impacto do Instituto.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTIMENTO -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-tag">O que viabiliza o piloto</div>
+      <h2>Um teste enxuto, pensado para gerar retorno em prova</h2>
+      <p>O Dia Zero é deliberadamente leve: o objetivo não é escala, é aprendizado e material.
+      Estas são as frentes que um apoiador do piloto ajuda a cobrir.</p>
+    </div>
+    <div class="invest">
+      <div class="icard high reveal"><div class="lbl">Estrutura</div>
+        <h3>Pista e karts</h3>
+        <p>Locação do kartódromo por um dia, baterias de kart, combustível e equipe de pista
+        para a turma.</p></div>
+      <div class="icard reveal"><div class="lbl">Experiência</div>
+        <h3>Kits e didática</h3>
+        <p>Kits dos alunos, material didático impresso, certificados, alimentação e transporte
+        dos jovens.</p></div>
+      <div class="icard reveal"><div class="lbl">Conteúdo</div>
+        <h3>Captação audiovisual</h3>
+        <p>Equipe, fotógrafo e operador de drone para registrar o dia em qualidade que serve às
+        redes, ao relatório e ao mídia kit.</p></div>
+    </div>
+    <p style="font-size:.82rem;color:var(--muted);margin-top:20px;max-width:46em">
+      *O piloto pode ser viabilizado por um apoiador único do projeto ou enquadrado
+      como primeira ação via LIE / fundo ESG, já gerando o relatório auditável que sustenta a
+      captação do projeto completo.</p>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section id="apoiar">
+  <div class="wrap reveal">
+    <div class="final">
+      <div class="wm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 107.04 105.3">
+  
+  <g>
+    <g>
+      <path class="ic1" d="M14.48,64.5c-1.95,5.74-3.72,11.57-5.5,17.41-1.1,3.19-1.78,6.49-3.47,9.04-.08.04-.13,0-.16-.11-.04-.31-.04-.61.02-.99.19-1.69,1.05-5.52,2.22-9.4.67-2.26,1.37-4.51,2.06-6.77,1.42-5.79,5.88-14.51.13-17.21-2.92-1.39-8.2-1.24-9.43-3.79-2.94-7.1,14.69-21.74,19.57-26.08,6.49-5.31,13.38-10.67,21-14.4,7.07-3.33,14.86-3.93,22.11-6.52C68.55,3.86,74.18.39,80.01,0c10.33-.01-.89,9.69-4.08,12.07-14.65,12.28-30.8,23.01-46.47,34.05-7.63,5.74-10.16,14.53-12.75,23.55-2.66,8.44-5.77,16.8-8.44,25.23-.87,2.75-3.58,9.98-4.09,10.33-.23.24-.25-.21-.04-1.28.14-.71.37-1.69.7-2.85,3.69-13.14,9.17-26.03,12.21-39.32.62-3.14.34-3.98-.59-2.17-.73,1.46-1.21,2.79-1.89,4.69l-.07.19ZM3.98,54.44c4.24.1,8.47-.94,12.3-2.96.18-.09.35-.2.52-.32.76-.55,1.46-1.19,2.16-1.81.5-.46.93-.92,1.4-1.34,1.26-1.1,5.33-6.34,6.43-7.66.43-.71,2.98-2.59,2.9-.94-.11.6-4.13,4.75-4.46,5.28-1.85,3.03.64,1.85,2.14.78,18.54-11.83,36.31-25.14,52.55-39.94,2.21-2.32-2.24-2.02-3.49-1.79-6.98,1.26-12.83,5.41-18.97,8.7-12.92,7.33-26.08,15.16-37.91,24.09-.22,0-.2-.24.06-.61,2.28-2.62,5.19-4.83,8.06-6.82,7.55-5.12,15.44-9.49,23.05-14.47.64-.63.28-1.28-.41-1.47-5.59-1.61-15.42,6.36-20.29,9.34-9.09,6.67-17.54,14.25-24.71,22.96-1.44,2.08-3.37,4.08-4.09,6.54-.18,1.43,1.32,2.43,2.62,2.43h.13Z"/>
+      <path class="ic2" d="M48.83,64.62c-1.98,1.97-3.87,7.74-7.45,5.9-1.12-.68-1.56-2.4-2.56-2.79-1.25-.47-2.56.39-3.71.85-1.92.9-3.86,1.07-5.2,2.54-3.26,5.46-5.14,11.73-8.12,17.41-1.1,2.51-2.87,5.77,1.9,4.15,3.5-1.16,8.5-4,11.79-5.8,1.77-1.01,2.94-1.42,4.76-2,3.01-.92,5.86-2.57,8.94-3.44,5.54-1.51,10.96-3.91,16.7-4.63,1.52-.36,5.54.33,2.25,1.86-6.53,1.22-12.57,3.28-18.72,5.67-6.39,2.08-12.64,4.95-18.73,7.89-3.83,2.16-7.09,4.8-11.56,5.71-1.38.29-2.61.26-3.15-.53-.56-.75-.24-2.3.22-3.28,1.07-2.26,2.12-4.45,3.35-6.74,2.87-6.42,6.01-12.8,8.99-19.2,5-11.21,9.74-22.17,13.37-33.82,1.14-2.34.85-9.73,4.04-9.73.59,0,1.52.66,1.71,1.11.26.53.17,1.04-.01,1.65-.93,2.83-2.29,5.58-3.12,8.41-2.06,6.54-5.06,12.89-7.77,19.23-.56,1.89-6.85,11.58-1.33,9.75,1.77-.78,3.2-2.16,4.03-3.63.9-1.55,2.42-5.22,4.61-3.35,1.16,1.05.51,2.6.49,4.17.31,3.81,4.59-3.14,5.82-3.19,2.39-1.59,4.73,2.08,6.94.03,2-1.53,3.18-4.42,5.67-5.05,3.06.04,1.34,5.74,5.28,3.05,1.53-.96,3.19-1.65,4.89-.87,1.13.47,2.23,1.25,3.51,1.19,2.87-.3,5.1-3.33,8.21-3.21,8.5-.09,5.53,9.03,19.28,4.67.86-.22,2.03-.71,2.79-.22.62,1.04-1.35,2.22-2.21,2.68-4.5,2.33-9.55,2.1-14.04-.08-2.37-.87-3.65,1.39-4.76,3.16-1.67,2.41-4.24,4.84-7.39,4.39-2.75-.43-5.51-2.52-5.84-5.04-.31-1.32.28-3.28-.96-4.18-3.88-1.15-4.95,5.14-8.21,5.89-.92.23-1.89-.28-2.09-1.23-.34-1.13.53-3.97-.27-4.59-.61-.34-1.31.66-1.68,1.09-1.73,1.85-2.65,9.64-6.33,7.74-1.37-.89-.66-4.12-2.1-4.74-.83-.2-1.56.47-2.09,1.03l-.13.15ZM81.88,63.9c1.11-1.03,1.87-2.4,2.53-3.79.93-1.56.42-2.35-1.48-1.81-.72.22-1.31.67-1.97,1.01-1.67.93-4.22,1.21-4.64,3.27-.29,3.74,3.42,3.62,5.43,1.43l.12-.12Z"/>
+    </g>
+  </g>
+</svg></div>
+      <div class="wm r"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 107.04 105.3">
+  
+  <g>
+    <g>
+      <path class="ic1" d="M14.48,64.5c-1.95,5.74-3.72,11.57-5.5,17.41-1.1,3.19-1.78,6.49-3.47,9.04-.08.04-.13,0-.16-.11-.04-.31-.04-.61.02-.99.19-1.69,1.05-5.52,2.22-9.4.67-2.26,1.37-4.51,2.06-6.77,1.42-5.79,5.88-14.51.13-17.21-2.92-1.39-8.2-1.24-9.43-3.79-2.94-7.1,14.69-21.74,19.57-26.08,6.49-5.31,13.38-10.67,21-14.4,7.07-3.33,14.86-3.93,22.11-6.52C68.55,3.86,74.18.39,80.01,0c10.33-.01-.89,9.69-4.08,12.07-14.65,12.28-30.8,23.01-46.47,34.05-7.63,5.74-10.16,14.53-12.75,23.55-2.66,8.44-5.77,16.8-8.44,25.23-.87,2.75-3.58,9.98-4.09,10.33-.23.24-.25-.21-.04-1.28.14-.71.37-1.69.7-2.85,3.69-13.14,9.17-26.03,12.21-39.32.62-3.14.34-3.98-.59-2.17-.73,1.46-1.21,2.79-1.89,4.69l-.07.19ZM3.98,54.44c4.24.1,8.47-.94,12.3-2.96.18-.09.35-.2.52-.32.76-.55,1.46-1.19,2.16-1.81.5-.46.93-.92,1.4-1.34,1.26-1.1,5.33-6.34,6.43-7.66.43-.71,2.98-2.59,2.9-.94-.11.6-4.13,4.75-4.46,5.28-1.85,3.03.64,1.85,2.14.78,18.54-11.83,36.31-25.14,52.55-39.94,2.21-2.32-2.24-2.02-3.49-1.79-6.98,1.26-12.83,5.41-18.97,8.7-12.92,7.33-26.08,15.16-37.91,24.09-.22,0-.2-.24.06-.61,2.28-2.62,5.19-4.83,8.06-6.82,7.55-5.12,15.44-9.49,23.05-14.47.64-.63.28-1.28-.41-1.47-5.59-1.61-15.42,6.36-20.29,9.34-9.09,6.67-17.54,14.25-24.71,22.96-1.44,2.08-3.37,4.08-4.09,6.54-.18,1.43,1.32,2.43,2.62,2.43h.13Z"/>
+      <path class="ic2" d="M48.83,64.62c-1.98,1.97-3.87,7.74-7.45,5.9-1.12-.68-1.56-2.4-2.56-2.79-1.25-.47-2.56.39-3.71.85-1.92.9-3.86,1.07-5.2,2.54-3.26,5.46-5.14,11.73-8.12,17.41-1.1,2.51-2.87,5.77,1.9,4.15,3.5-1.16,8.5-4,11.79-5.8,1.77-1.01,2.94-1.42,4.76-2,3.01-.92,5.86-2.57,8.94-3.44,5.54-1.51,10.96-3.91,16.7-4.63,1.52-.36,5.54.33,2.25,1.86-6.53,1.22-12.57,3.28-18.72,5.67-6.39,2.08-12.64,4.95-18.73,7.89-3.83,2.16-7.09,4.8-11.56,5.71-1.38.29-2.61.26-3.15-.53-.56-.75-.24-2.3.22-3.28,1.07-2.26,2.12-4.45,3.35-6.74,2.87-6.42,6.01-12.8,8.99-19.2,5-11.21,9.74-22.17,13.37-33.82,1.14-2.34.85-9.73,4.04-9.73.59,0,1.52.66,1.71,1.11.26.53.17,1.04-.01,1.65-.93,2.83-2.29,5.58-3.12,8.41-2.06,6.54-5.06,12.89-7.77,19.23-.56,1.89-6.85,11.58-1.33,9.75,1.77-.78,3.2-2.16,4.03-3.63.9-1.55,2.42-5.22,4.61-3.35,1.16,1.05.51,2.6.49,4.17.31,3.81,4.59-3.14,5.82-3.19,2.39-1.59,4.73,2.08,6.94.03,2-1.53,3.18-4.42,5.67-5.05,3.06.04,1.34,5.74,5.28,3.05,1.53-.96,3.19-1.65,4.89-.87,1.13.47,2.23,1.25,3.51,1.19,2.87-.3,5.1-3.33,8.21-3.21,8.5-.09,5.53,9.03,19.28,4.67.86-.22,2.03-.71,2.79-.22.62,1.04-1.35,2.22-2.21,2.68-4.5,2.33-9.55,2.1-14.04-.08-2.37-.87-3.65,1.39-4.76,3.16-1.67,2.41-4.24,4.84-7.39,4.39-2.75-.43-5.51-2.52-5.84-5.04-.31-1.32.28-3.28-.96-4.18-3.88-1.15-4.95,5.14-8.21,5.89-.92.23-1.89-.28-2.09-1.23-.34-1.13.53-3.97-.27-4.59-.61-.34-1.31.66-1.68,1.09-1.73,1.85-2.65,9.64-6.33,7.74-1.37-.89-.66-4.12-2.1-4.74-.83-.2-1.56.47-2.09,1.03l-.13.15ZM81.88,63.9c1.11-1.03,1.87-2.4,2.53-3.79.93-1.56.42-2.35-1.48-1.81-.72.22-1.31.67-1.97,1.01-1.67.93-4.22,1.21-4.64,3.27-.29,3.74,3.42,3.62,5.43,1.43l.12-.12Z"/>
+    </g>
+  </g>
+</svg></div>
+      <h2>Coloque sua marca no primeiro Dia Zero do Laboratório sobre Rodas</h2>
+      <p>Apoiar o piloto é entrar antes de todo mundo: sua marca aparece no case que vai
+      estruturar e abrir o projeto completo. Fale com o Instituto e receba o plano operacional
+      e o orçamento detalhado da turma piloto.</p>
+      <div class="hero-cta">
+        <a href="mailto:captacao@institutopedrolima.com.br" class="btn gold">Quero apoiar o piloto</a>
+        <a href="laboratorio-sobre-rodas.html" class="btn ghost" style="color:#fff;border-color:rgba(255,255,255,.6)">Ver o projeto completo</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <svg class="logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 977.55 192.25">
+  
+  <g>
+    <path class="lg1" d="M808.57,117.75c-3.57,10.48-6.78,21.13-10.04,31.78-2.01,5.82-3.25,11.85-6.34,16.51-.14.07-.23,0-.29-.19-.08-.57-.06-1.11.03-1.8.35-3.08,1.92-10.08,4.04-17.16,1.23-4.12,2.5-8.24,3.75-12.35,2.59-10.56,10.74-26.49.24-31.42-5.34-2.54-14.97-2.26-17.22-6.93-5.36-12.96,26.82-39.69,35.74-47.62,11.85-9.69,24.43-19.47,38.33-26.3,12.91-6.08,27.14-7.17,40.37-11.91C907.29,7.05,917.56.71,928.21,0c18.86-.02-1.63,17.69-7.46,22.04-26.75,22.42-56.23,42.02-84.84,62.17-13.92,10.48-18.55,26.53-23.28,43-4.86,15.41-10.53,30.67-15.41,46.07-1.58,5.02-6.53,18.21-7.48,18.85-.42.45-.45-.38-.08-2.33.25-1.3.68-3.08,1.27-5.21,6.74-24,16.73-47.53,22.29-71.79,1.14-5.73.62-7.27-1.08-3.97-1.33,2.67-2.2,5.09-3.45,8.57l-.12.35ZM789.41,99.39c7.75.19,15.46-1.72,22.46-5.4.33-.17.64-.37.94-.58,1.38-1.01,2.66-2.18,3.94-3.3.92-.84,1.7-1.69,2.56-2.44,2.29-2,9.72-11.57,11.75-13.99.79-1.29,5.44-4.73,5.3-1.72-.21,1.1-7.53,8.67-8.15,9.64-3.38,5.53,1.17,3.38,3.91,1.43,33.84-21.59,66.29-45.9,95.94-72.92,4.03-4.23-4.09-3.68-6.38-3.27-12.74,2.31-23.42,9.88-34.63,15.89-23.6,13.38-47.61,27.67-69.22,43.99-.4,0-.37-.43.11-1.11,4.17-4.79,9.47-8.82,14.71-12.46,13.79-9.35,28.2-17.33,42.09-26.43,1.17-1.15.52-2.34-.75-2.69-10.2-2.94-28.15,11.61-37.05,17.06-16.59,12.18-32.02,26.02-45.11,41.91-2.63,3.8-6.15,7.44-7.46,11.93-.33,2.61,2.41,4.43,4.79,4.44l.25.02Z"/>
+    <path class="lg2" d="M871.29,117.98c-3.62,3.6-7.07,14.12-13.6,10.77-2.05-1.24-2.85-4.38-4.68-5.1-2.28-.86-4.67.71-6.77,1.54-3.51,1.64-7.05,1.95-9.49,4.63-5.95,9.97-9.39,21.41-14.83,31.78-2,4.58-5.23,10.54,3.48,7.57,6.4-2.12,15.51-7.3,21.53-10.59,3.24-1.85,5.37-2.59,8.68-3.66,5.49-1.68,10.7-4.69,16.33-6.28,10.11-2.76,20-7.14,30.49-8.45,2.77-.66,10.12.59,4.11,3.39-11.92,2.24-22.95,5.99-34.17,10.35-11.66,3.79-23.08,9.04-34.2,14.41-6.99,3.94-12.95,8.76-21.11,10.42-2.52.52-4.76.47-5.75-.97-1.02-1.38-.45-4.2.39-6,1.96-4.12,3.87-8.13,6.11-12.3,5.24-11.73,10.97-23.37,16.4-35.05,9.13-20.47,17.78-40.47,24.41-61.75,2.07-4.28,1.55-17.77,7.38-17.76,1.07.01,2.78,1.2,3.11,2.03.48.97.3,1.9-.03,3.01-1.69,5.17-4.18,10.18-5.7,15.35-3.76,11.95-9.25,23.54-14.19,35.1-1.02,3.46-12.51,21.14-2.43,17.8,3.23-1.42,5.85-3.94,7.35-6.62,1.65-2.83,4.41-9.52,8.42-6.11,2.12,1.91.94,4.75.9,7.61.56,6.95,8.38-5.73,10.62-5.82,4.37-2.89,8.63,3.8,12.66.05,3.65-2.79,5.8-8.07,10.34-9.21,5.59.07,2.45,10.48,9.64,5.57,2.8-1.74,5.82-3.02,8.92-1.59,2.07.85,4.07,2.28,6.4,2.17,5.24-.54,9.3-6.08,15-5.87,15.52-.16,10.1,16.49,35.2,8.53,1.57-.41,3.7-1.3,5.1-.4,1.13,1.89-2.47,4.06-4.04,4.89-8.22,4.25-17.43,3.83-25.63-.14-4.33-1.59-6.67,2.54-8.68,5.78-3.06,4.4-7.74,8.84-13.49,8.01-5.01-.79-10.05-4.59-10.67-9.2-.56-2.41.52-5.98-1.74-7.62-7.08-2.1-9.03,9.39-14.98,10.75-1.67.42-3.45-.51-3.82-2.24-.63-2.06.96-7.25-.49-8.38-1.12-.62-2.39,1.2-3.06,2-3.17,3.37-4.83,17.6-11.56,14.12-2.5-1.62-1.2-7.52-3.83-8.66-1.51-.37-2.85.85-3.82,1.88l-.24.27ZM931.62,116.67c2.02-1.87,3.42-4.38,4.63-6.91,1.69-2.86.77-4.28-2.7-3.3-1.32.41-2.39,1.22-3.59,1.85-3.05,1.69-7.7,2.21-8.48,5.96-.53,6.83,6.24,6.61,9.92,2.61l.22-.21Z"/>
+  </g>
+  <g>
+    <path class="lg1" d="M0,56.55h4.68v109.4H0V56.55Z"/>
+    <path class="lg1" d="M25.25,99.04c0-27.27,16.22-44.66,45.5-44.66s45.5,17.4,45.5,44.66v66.91h-4.68v-66.91c0-24.76-14.39-40.48-40.81-40.48s-40.81,15.72-40.81,40.48v66.91h-4.68v-66.91Z"/>
+    <path class="lg1" d="M130.79,136h4.68c.5,17.73,14.05,27.93,34.63,27.93s34.62-10.54,34.62-27.93c0-18.4-16.73-20.58-33.96-23.08-18.23-2.68-37.13-5.35-37.13-27.27,0-18.73,14.55-31.28,36.63-31.28s36.13,12.04,36.63,30.28h-4.68c-.5-16.73-13.22-26.09-31.95-26.09s-31.95,9.7-31.95,27.1c0,18.4,16.73,20.58,33.96,23.08,18.23,2.68,37.13,5.35,37.13,27.27,0,19.74-15.56,32.12-39.31,32.12s-38.81-12.04-39.31-32.12Z"/>
+    <path class="lg1" d="M257.9,60.73h-40.65v-4.18h86.14v4.18h-40.81v105.21h-4.68V60.73Z"/>
+    <path class="lg1" d="M319.78,56.55h4.68v109.4h-4.68V56.55Z"/>
+    <path class="lg1" d="M381.5,60.73h-40.65v-4.18h86.14v4.18h-40.81v105.21h-4.68V60.73Z"/>
+    <path class="lg1" d="M440.2,123.46V56.55h4.68v66.91c0,24.76,14.39,40.48,40.81,40.48s40.48-16.06,40.48-40.48V56.55h4.52v66.91c0,27.27-16.06,44.66-45,44.66s-45.5-17.4-45.5-44.66Z"/>
+    <path class="lg1" d="M584.38,60.73h-40.65v-4.18h86.14v4.18h-40.81v105.21h-4.68V60.73Z"/>
+    <path class="lg1" d="M630.03,111.25c0-32.79,24.09-56.87,58.21-56.87s58.21,24.09,58.21,56.87-24.09,56.87-58.21,56.87-58.21-24.09-58.21-56.87ZM741.77,111.25c0-30.28-22.08-52.69-53.53-52.69s-53.53,22.41-53.53,52.69,22.08,52.69,53.53,52.69,53.53-22.41,53.53-52.69Z"/>
+  </g>
+</svg>
+      <small>Laboratório sobre Rodas · Projeto Piloto · Body · Brain · Soul</small>
+    </div>
+    <div class="foot-links">
+      <a href="#oque">O Piloto</a>
+      <a href="#cronograma">Cronograma</a>
+      <a href="#kit">Kit</a>
+      <a href="#apoiar">Apoiar</a>
+    </div>
+  </div>
+  <div class="wrap" style="margin-top:24px">
+    <small style="font-size:.74rem">© 2026 Instituto Pedro Lima — Associação civil sem fins lucrativos.
+    Educação pelo esporte (metodologia STEM) · Conformidade ODS 4 e Agenda 2030 · Relatórios auditáveis CVM 193.</small>
+  </div>
+</footer>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
