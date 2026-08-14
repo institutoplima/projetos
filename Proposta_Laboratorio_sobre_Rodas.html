@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laboratório sobre Rodas · Proposta de Patrocínio — Instituto Pedro Lima</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@200;300;400;600;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --green:#019541;
+  --green-deep:#046b2e;
+  --green-ink:#023d1d;
+  --gold:#ffcd01;
+  --ink:#0c1710;
+  --muted:#55625a;
+  --paper:#f1f4f0;
+  --white:#fff;
+  --line:rgba(1,149,65,.16);
+  --line-soft:rgba(12,23,16,.08);
+  --shadow:0 24px 60px -30px rgba(2,61,29,.5);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--paper);color:var(--ink);
+  line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Sora',sans-serif;line-height:1.14;letter-spacing:-.02em}
+.wrap{max-width:1120px;margin:0 auto;padding:0 26px}
+.mono{font-family:'JetBrains Mono',monospace}
+a{color:inherit}
+img,svg{max-width:100%}
+
+/* ---- LOGO ---- */
+.brand svg{height:26px;width:auto;display:block}
+.brand .bg{fill:var(--green-deep)}
+.brand .by{fill:var(--gold)}
+.brand.on-dark .bg{fill:#fff}
+.brand.big svg{height:38px}
+
+/* ---- NAV ---- */
+nav{position:sticky;top:0;z-index:60;background:rgba(241,244,240,.88);
+  backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:70px;gap:20px}
+.nav-links{display:flex;gap:26px;align-items:center}
+.nav-links a{font-size:.8rem;font-weight:500;color:var(--muted);text-decoration:none;transition:color .18s}
+.nav-links a:hover{color:var(--green-deep)}
+.btn{display:inline-flex;align-items:center;gap:9px;background:var(--green);color:#fff;
+  font-family:'Sora';font-weight:600;font-size:.84rem;padding:12px 22px;border-radius:999px;
+  text-decoration:none;border:none;cursor:pointer;
+  transition:transform .16s,box-shadow .2s,background .2s;
+  box-shadow:0 12px 26px -12px rgba(1,149,65,.8)}
+.btn:hover{transform:translateY(-2px);background:var(--green-deep)}
+.btn.gold{background:var(--gold);color:var(--ink);box-shadow:0 12px 26px -12px rgba(255,205,1,.85)}
+.btn.gold:hover{background:#ecbd00}
+.btn.ghost{background:transparent;color:var(--green-deep);border:1.5px solid var(--green);box-shadow:none}
+.btn.ghost:hover{background:var(--green);color:#fff}
+@media(max-width:900px){.nav-links a:not(.btn){display:none}}
+
+/* ---- TELEMETRY SIGNATURE ---- */
+.trace{display:block;width:100%;height:64px;overflow:visible}
+.trace path{fill:none;stroke:var(--green);stroke-width:1.6;opacity:.55;
+  stroke-dasharray:2400;stroke-dashoffset:2400;animation:draw 2.6s cubic-bezier(.6,0,.2,1) forwards}
+.trace path.b{stroke:var(--gold);opacity:.85;animation-delay:.35s}
+@keyframes draw{to{stroke-dashoffset:0}}
+.divider{padding:0;border:none;height:1px;background:var(--line);margin:0}
+
+/* ---- HERO ---- */
+.hero{position:relative;padding:74px 0 64px;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(760px 420px at 90% -10%,rgba(1,149,65,.10),transparent 62%),
+             radial-gradient(620px 380px at -8% 108%,rgba(255,205,1,.14),transparent 62%)}
+.hero-grid{position:relative;display:grid;grid-template-columns:1.18fr .82fr;gap:52px;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;
+  font-weight:500;font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--green-deep);
+  background:rgba(1,149,65,.09);padding:8px 15px;border-radius:999px;margin-bottom:24px}
+.eyebrow i{width:7px;height:7px;border-radius:50%;background:var(--gold);display:block}
+.hero h1{font-size:clamp(2.2rem,5.1vw,3.55rem);font-weight:800;color:var(--green-ink)}
+.hero h1 em{font-style:normal;color:var(--green)}
+.hero .lead{font-size:1.08rem;color:var(--muted);margin-top:22px;max-width:34em}
+.hero-cta{display:flex;gap:13px;flex-wrap:wrap;margin-top:30px}
+
+/* timing board */
+.board{background:var(--green-ink);border-radius:20px;padding:26px 26px 22px;color:#fff;
+  box-shadow:var(--shadow);position:relative;overflow:hidden}
+.board::after{content:"";position:absolute;left:0;right:0;top:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--green),var(--gold))}
+.board .bh{display:flex;justify-content:space-between;align-items:center;
+  font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:18px}
+.board .bh b{color:var(--gold);font-weight:500}
+.brow{display:flex;justify-content:space-between;align-items:baseline;gap:14px;
+  padding:11px 0;border-top:1px solid rgba(255,255,255,.11)}
+.brow:first-of-type{border-top:none}
+.brow span{font-size:.79rem;color:rgba(255,255,255,.62);letter-spacing:.02em}
+.brow b{font-family:'JetBrains Mono',monospace;font-size:1.02rem;font-weight:700;color:#fff}
+.brow.hi{margin-top:6px;border-top:1px solid rgba(255,205,1,.35)}
+.brow.hi b{color:var(--gold);font-size:1.28rem}
+@media(max-width:920px){.hero-grid{grid-template-columns:1fr;gap:38px}}
+
+/* ---- SECTIONS ---- */
+section{padding:76px 0}
+.sec-head{max-width:47em;margin-bottom:42px}
+.sec-tag{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:.68rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--green);margin-bottom:13px}
+.sec-head h2{font-size:clamp(1.7rem,3.5vw,2.35rem);font-weight:700;color:var(--green-ink)}
+.sec-head p{color:var(--muted);font-size:1.03rem;margin-top:15px}
+
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+@media(max-width:900px){.g3,.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.g2,.g3,.g4{grid-template-columns:1fr}}
+
+.card{background:var(--white);border:1px solid var(--line);border-radius:16px;padding:28px 24px;
+  transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.card .num{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.14em;
+  color:var(--green);margin-bottom:14px;display:block}
+.card h3{font-size:1.1rem;font-weight:700;color:var(--green-ink);margin-bottom:8px}
+.card p{font-size:.93rem;color:var(--muted)}
+
+/* ---- ANATOMIA DA AULA ---- */
+.anat{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:32px 30px}
+.bar{display:flex;height:56px;border-radius:11px;overflow:hidden;margin:22px 0 16px}
+.bar div{display:flex;flex-direction:column;justify-content:center;padding:0 20px;color:#fff}
+.bar .t{flex:2;background:var(--green-deep)}
+.bar .p{flex:1;background:var(--gold);color:var(--ink)}
+.bar .lb{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;opacity:.75}
+.bar .vl{font-family:'Sora';font-weight:600;font-size:.98rem;line-height:1.2}
+.anat-legend{display:grid;grid-template-columns:2fr 1fr;gap:24px}
+.anat-legend ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.anat-legend li{font-size:.9rem;color:var(--muted);padding-left:16px;position:relative}
+.anat-legend li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;
+  border-radius:50%;background:var(--green)}
+.anat-legend .p li::before{background:var(--gold)}
+.anat-legend h4{font-family:'JetBrains Mono';font-size:.7rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--green-ink);margin-bottom:12px;font-weight:500}
+@media(max-width:760px){.anat-legend{grid-template-columns:1fr}}
+
+/* ---- GRADE ---- */
+.grade{margin-top:12px;border-top:1px solid var(--line)}
+.gr{display:grid;grid-template-columns:56px 1.1fr 1.5fr;gap:20px;padding:16px 0;
+  border-bottom:1px solid var(--line);align-items:baseline}
+.gr .n{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:.92rem;color:var(--gold)}
+.gr .t{font-family:'Sora';font-weight:600;font-size:.97rem;color:var(--green-ink)}
+.gr .d{font-size:.89rem;color:var(--muted)}
+@media(max-width:720px){.gr{grid-template-columns:44px 1fr;gap:10px}.gr .d{grid-column:2}}
+
+/* ---- BAND ---- */
+.band{background:var(--green-ink);color:#fff;position:relative;overflow:hidden}
+.band .sec-tag{color:var(--gold)}
+.band .sec-head h2{color:#fff}
+.band .sec-head p{color:rgba(255,255,255,.74)}
+.band .mark{position:absolute;right:-40px;bottom:-46px;width:300px;opacity:.07;pointer-events:none}
+.band .mark .bg,.band .mark .by{fill:#fff}
+.stat{border-top:1px solid rgba(255,255,255,.16);padding-top:18px}
+.stat b{display:block;font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700;
+  color:var(--gold);line-height:1.1}
+.stat span{font-size:.85rem;color:rgba(255,255,255,.7);display:block;margin-top:6px}
+
+/* ---- TABELA ---- */
+.tbl{width:100%;border-collapse:collapse;background:var(--white);
+  border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.tbl th,.tbl td{padding:14px 18px;text-align:left;font-size:.9rem;border-bottom:1px solid var(--line)}
+.tbl th{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--green-deep);background:rgba(1,149,65,.05);font-weight:500}
+.tbl td.m{font-family:'JetBrains Mono',monospace;font-weight:500}
+.tbl tr:last-child td{border-bottom:none}
+.tbl-scroll{overflow-x:auto}
+
+/* ---- COTAS ---- */
+.cotas{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;align-items:start}
+.cota{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:30px 26px;
+  position:relative;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.cota:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+.cota .rib{position:absolute;top:0;left:0;right:0;height:4px;background:var(--line)}
+.cota.master .rib{background:var(--gold)}
+.cota.ouro .rib{background:var(--green)}
+.cota.prata .rib{background:#9fb0a6}
+.cota .tag{font-family:'JetBrains Mono',monospace;font-size:.66rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--muted)}
+.cota h3{font-size:1.5rem;font-weight:800;color:var(--green-ink);margin:6px 0 2px}
+.cota .val{font-family:'JetBrains Mono',monospace;font-size:1.32rem;font-weight:700;
+  color:var(--green);margin-bottom:4px}
+.cota .pct{font-size:.82rem;color:var(--muted);margin-bottom:20px}
+.cota ul{list-style:none;display:flex;flex-direction:column;gap:11px}
+.cota li{display:flex;gap:10px;font-size:.89rem;color:var(--muted);align-items:flex-start}
+.cota li svg{flex:none;width:16px;height:16px;stroke:var(--green);fill:none;stroke-width:2.6;margin-top:4px}
+.cota.master li svg{stroke:#d9ac00}
+.badge{position:absolute;top:18px;right:18px;background:var(--gold);color:var(--ink);
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.14em;
+  padding:5px 10px;border-radius:999px;font-weight:700}
+@media(max-width:900px){.cotas{grid-template-columns:1fr}}
+
+/* ---- LISTA CHECK ---- */
+.checks{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px 26px}
+.checks li{display:flex;gap:11px;font-size:.93rem;color:var(--muted);align-items:flex-start}
+.checks li svg{flex:none;width:17px;height:17px;stroke:var(--green);fill:none;stroke-width:2.6;margin-top:4px}
+.checks.on-dark li{color:rgba(255,255,255,.82)}
+.checks.on-dark li svg{stroke:var(--gold)}
+@media(max-width:700px){.checks{grid-template-columns:1fr}}
+
+/* ---- CRONOGRAMA ---- */
+.tl{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:8px}
+.tl .step{padding:24px 20px 24px 0;border-top:3px solid var(--line);position:relative}
+.tl .step:nth-child(1){border-top-color:var(--gold)}
+.tl .step:nth-child(2),.tl .step:nth-child(3){border-top-color:var(--green)}
+.tl .step .m{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.16em;
+  color:var(--green);text-transform:uppercase;margin:14px 0 8px;display:block}
+.tl .step h4{font-size:1rem;font-weight:700;color:var(--green-ink);margin-bottom:7px}
+.tl .step p{font-size:.87rem;color:var(--muted)}
+@media(max-width:860px){.tl{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.tl{grid-template-columns:1fr}}
+
+/* ---- FINE PRINT ---- */
+.fine{background:rgba(1,149,65,.05);border:1px solid var(--line);border-radius:14px;
+  padding:24px 26px;margin-top:26px}
+.fine h4{font-family:'JetBrains Mono';font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--green-deep);margin-bottom:12px;font-weight:500}
+.fine p{font-size:.85rem;color:var(--muted);margin-bottom:9px}
+.fine p:last-child{margin-bottom:0}
+
+/* ---- CTA ---- */
+.cta{background:var(--green);color:#fff;border-radius:22px;padding:52px 46px;
+  position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.cta .mark{position:absolute;right:-30px;top:-30px;width:240px;opacity:.12}
+.cta .mark .bg,.cta .mark .by{fill:#fff}
+.cta h2{font-size:clamp(1.6rem,3.2vw,2.2rem);font-weight:800;max-width:16em;position:relative}
+.cta p{color:rgba(255,255,255,.86);margin-top:16px;max-width:40em;font-size:1.02rem;position:relative}
+.cta .row{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px;position:relative}
+.cta .btn{background:#fff;color:var(--green-ink);box-shadow:none}
+.cta .btn:hover{background:var(--gold);color:var(--ink)}
+.cta .btn.ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.6)}
+.cta .btn.ghost:hover{background:#fff;color:var(--green-ink)}
+@media(max-width:640px){.cta{padding:38px 26px}}
+
+/* ---- FOOTER ---- */
+footer{padding:44px 0 60px;border-top:1px solid var(--line);margin-top:76px}
+.foot-in{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+footer p{font-size:.8rem;color:var(--muted)}
+
+/* ---- REVEAL ---- */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.rv.in{opacity:1;transform:none}
+:focus-visible{outline:2.5px solid var(--green);outline-offset:3px;border-radius:4px}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+  .trace path{stroke-dashoffset:0}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap nav-in">
+    <a href="#top" class="brand" aria-label="Instituto Pedro Lima"><svg   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 535.44 105.3">
+  
+  <g  >
+    <g>
+      <path class="bg" d="M442.88,64.5c-1.95,5.74-3.72,11.57-5.5,17.41-1.1,3.19-1.78,6.49-3.47,9.04-.08.04-.13,0-.16-.11-.04-.31-.04-.61.02-.99.19-1.69,1.05-5.52,2.22-9.4.67-2.26,1.37-4.51,2.06-6.77,1.42-5.79,5.88-14.51.13-17.21-2.92-1.39-8.2-1.24-9.43-3.79-2.94-7.1,14.69-21.74,19.57-26.08,6.49-5.31,13.38-10.67,21-14.4,7.07-3.33,14.86-3.93,22.11-6.52C496.96,3.86,502.58.39,508.41,0c10.33-.01-.89,9.69-4.08,12.07-14.65,12.28-30.8,23.01-46.47,34.05-7.63,5.74-10.16,14.53-12.75,23.55-2.66,8.44-5.77,16.8-8.44,25.23-.87,2.75-3.58,9.98-4.09,10.33-.23.24-.25-.21-.04-1.28.14-.71.37-1.69.7-2.85,3.69-13.14,9.17-26.03,12.21-39.32.62-3.14.34-3.98-.59-2.17-.73,1.46-1.21,2.79-1.89,4.69l-.07.19ZM432.39,54.44c4.24.1,8.47-.94,12.3-2.96.18-.09.35-.2.52-.32.76-.55,1.46-1.19,2.16-1.81.5-.46.93-.92,1.4-1.34,1.26-1.1,5.33-6.34,6.43-7.66.43-.71,2.98-2.59,2.9-.94-.11.6-4.13,4.75-4.46,5.28-1.85,3.03.64,1.85,2.14.78,18.54-11.83,36.31-25.14,52.55-39.94,2.21-2.32-2.24-2.02-3.49-1.79-6.98,1.26-12.83,5.41-18.97,8.7-12.92,7.33-26.08,15.16-37.91,24.09-.22,0-.2-.24.06-.61,2.28-2.62,5.19-4.83,8.06-6.82,7.55-5.12,15.44-9.49,23.05-14.47.64-.63.28-1.28-.41-1.47-5.59-1.61-15.42,6.36-20.29,9.34-9.09,6.67-17.54,14.25-24.71,22.96-1.44,2.08-3.37,4.08-4.09,6.54-.18,1.43,1.32,2.43,2.62,2.43h.13Z"/>
+      <path class="by" d="M477.24,64.62c-1.98,1.97-3.87,7.74-7.45,5.9-1.12-.68-1.56-2.4-2.56-2.79-1.25-.47-2.56.39-3.71.85-1.92.9-3.86,1.07-5.2,2.54-3.26,5.46-5.14,11.73-8.12,17.41-1.1,2.51-2.87,5.77,1.9,4.15,3.5-1.16,8.5-4,11.79-5.8,1.77-1.01,2.94-1.42,4.76-2,3.01-.92,5.86-2.57,8.94-3.44,5.54-1.51,10.96-3.91,16.7-4.63,1.52-.36,5.54.33,2.25,1.86-6.53,1.22-12.57,3.28-18.72,5.67-6.39,2.08-12.64,4.95-18.73,7.89-3.83,2.16-7.09,4.8-11.56,5.71-1.38.29-2.61.26-3.15-.53-.56-.75-.24-2.3.22-3.28,1.07-2.26,2.12-4.45,3.35-6.74,2.87-6.42,6.01-12.8,8.99-19.2,5-11.21,9.74-22.17,13.37-33.82,1.14-2.34.85-9.73,4.04-9.73.59,0,1.52.66,1.71,1.11.26.53.17,1.04-.01,1.65-.93,2.83-2.29,5.58-3.12,8.41-2.06,6.54-5.06,12.89-7.77,19.23-.56,1.89-6.85,11.58-1.33,9.75,1.77-.78,3.2-2.16,4.03-3.63.9-1.55,2.42-5.22,4.61-3.35,1.16,1.05.51,2.6.49,4.17.31,3.81,4.59-3.14,5.82-3.19,2.39-1.59,4.73,2.08,6.94.03,2-1.53,3.18-4.42,5.67-5.05,3.06.04,1.34,5.74,5.28,3.05,1.53-.96,3.19-1.65,4.89-.87,1.13.47,2.23,1.25,3.51,1.19,2.87-.3,5.1-3.33,8.21-3.21,8.5-.09,5.53,9.03,19.28,4.67.86-.22,2.03-.71,2.79-.22.62,1.04-1.35,2.22-2.21,2.68-4.5,2.33-9.55,2.1-14.04-.08-2.37-.87-3.65,1.39-4.76,3.16-1.67,2.41-4.24,4.84-7.39,4.39-2.75-.43-5.51-2.52-5.84-5.04-.31-1.32.28-3.28-.96-4.18-3.88-1.15-4.95,5.14-8.21,5.89-.92.23-1.89-.28-2.09-1.23-.34-1.13.53-3.97-.27-4.59-.61-.34-1.31.66-1.68,1.09-1.73,1.85-2.65,9.64-6.33,7.74-1.37-.89-.66-4.12-2.1-4.74-.83-.2-1.56.47-2.09,1.03l-.13.15ZM510.28,63.9c1.11-1.03,1.87-2.4,2.53-3.79.93-1.56.42-2.35-1.48-1.81-.72.22-1.31.67-1.97,1.01-1.67.93-4.22,1.21-4.64,3.27-.29,3.74,3.42,3.62,5.43,1.43l.12-.12Z"/>
+    </g>
+    <g>
+      <path class="bg" d="M0,30.97h2.57v59.92H0V30.97Z"/>
+      <path class="bg" d="M13.83,54.24c0-14.93,8.89-24.46,24.92-24.46s24.92,9.53,24.92,24.46v36.65h-2.57v-36.65c0-13.56-7.88-22.17-22.36-22.17s-22.36,8.61-22.36,22.17v36.65h-2.57v-36.65Z"/>
+      <path class="bg" d="M71.64,74.49h2.57c.27,9.71,7.7,15.3,18.97,15.3s18.97-5.77,18.97-15.3c0-10.08-9.16-11.27-18.6-12.64-9.99-1.47-20.34-2.93-20.34-14.93,0-10.26,7.97-17.13,20.06-17.13s19.79,6.6,20.07,16.58h-2.57c-.27-9.16-7.24-14.29-17.5-14.29s-17.5,5.31-17.5,14.84c0,10.08,9.16,11.27,18.6,12.64,9.99,1.47,20.34,2.93,20.34,14.93,0,10.81-8.52,17.59-21.53,17.59s-21.26-6.6-21.53-17.59Z"/>
+      <path class="bg" d="M141.26,33.26h-22.26v-2.29h47.18v2.29h-22.36v57.63h-2.57v-57.63Z"/>
+      <path class="bg" d="M175.16,30.97h2.57v59.92h-2.57V30.97Z"/>
+      <path class="bg" d="M208.96,33.26h-22.26v-2.29h47.18v2.29h-22.36v57.63h-2.57v-57.63Z"/>
+      <path class="bg" d="M241.11,67.62V30.97h2.57v36.65c0,13.56,7.88,22.17,22.36,22.17s22.17-8.8,22.17-22.17V30.97h2.47v36.65c0,14.93-8.8,24.46-24.65,24.46s-24.92-9.53-24.92-24.46Z"/>
+      <path class="bg" d="M320.09,33.26h-22.26v-2.29h47.18v2.29h-22.36v57.63h-2.57v-57.63Z"/>
+      <path class="bg" d="M345.09,60.93c0-17.96,13.19-31.15,31.88-31.15s31.88,13.19,31.88,31.15-13.19,31.15-31.88,31.15-31.88-13.19-31.88-31.15ZM406.3,60.93c0-16.58-12.09-28.86-29.32-28.86s-29.32,12.28-29.32,28.86,12.09,28.86,29.32,28.86,29.32-12.28,29.32-28.86Z"/>
+    </g>
+  </g>
+</svg></a>
+    <div class="nav-links">
+      <a href="#projeto">O projeto</a>
+      <a href="#dinamica">Dinâmica</a>
+      <a href="#impacto">Impacto</a>
+      <a href="#fiscal">Mecanismo fiscal</a>
+      <a href="#cotas">Cotas</a>
+      <a href="#contato" class="btn">Quero patrocinar</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow"><i></i>Proposta de patrocínio · Lei de Incentivo ao Esporte</span>
+      <h1>A volta rápida vira<br><em>aula de matemática.</em></h1>
+      <p class="lead">O <strong>Laboratório sobre Rodas</strong> é o projeto de iniciação ao kartismo do
+        Instituto Pedro Lima. Quarenta adolescentes da rede pública aprendem a pilotar kart elétrico —
+        e aprendem a ler os próprios dados de telemetria para entender por que perderam três décimos
+        na curva 4. Sua marca patrocina isso com recursos que já sairiam da empresa como imposto.</p>
+      <div class="hero-cta">
+        <a href="#cotas" class="btn gold">Ver cotas e valores</a>
+        <a href="#dinamica" class="btn ghost">Como funciona</a>
+      </div>
+    </div>
+
+    <aside class="board">
+      <div class="bh"><span>Ficha do projeto</span><b>● ATIVO</b></div>
+      <div class="brow"><span>Beneficiários</span><b>40</b></div>
+      <div class="brow"><span>Idade</span><b>12–17</b></div>
+      <div class="brow"><span>Rede pública</span><b>100%</b></div>
+      <div class="brow"><span>Vagas para meninas</span><b>50%</b></div>
+      <div class="brow"><span>Aulas ministradas</span><b>32</b></div>
+      <div class="brow"><span>Carga por aluno</span><b>16 h</b></div>
+      <div class="brow"><span>Execução</span><b>2 meses</b></div>
+      <div class="brow hi"><span>Investimento total</span><b>R$ 440.590</b></div>
+    </aside>
+  </div>
+  <div class="wrap" style="margin-top:34px">
+    <svg class="trace" viewBox="0 0 1200 64" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,48 L70,46 L110,20 L150,44 L210,42 L250,12 L300,40 L360,38 L392,52 L430,26 L500,30 L540,8 L590,34 L650,32 L690,50 L730,22 L800,28 L850,6 L900,36 L960,34 L1000,52 L1040,24 L1110,30 L1160,14 L1200,32"/>
+      <path class="b" d="M0,54 L70,52 L110,34 L150,50 L210,48 L250,26 L300,46 L360,44 L392,56 L430,38 L500,40 L540,22 L590,44 L650,42 L690,54 L730,34 L800,38 L850,20 L900,44 L960,42 L1000,56 L1040,36 L1110,40 L1160,28 L1200,42"/>
+    </svg>
+  </div>
+</header>
+
+<section id="projeto">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-tag">Resumo executivo</div>
+      <h2>Um projeto pequeno o suficiente para ser executado com rigor, e específico o suficiente para não parecer mais um.</h2>
+      <p>O kartismo é a base de formação de todo o automobilismo — e uma das modalidades mais
+        inacessíveis do país. O filtro é econômico e age antes de qualquer filtro esportivo: o talento
+        não chega a ser avaliado porque o acesso não chega a existir. O Laboratório sobre Rodas
+        remove esse filtro por inteiro.</p>
+    </div>
+    <div class="g3">
+      <div class="card rv"><span class="num">QUEM</span>
+        <h3>Instituto Pedro Lima</h3>
+        <p>Associação sem fins econômicos, de natureza esportiva. O Instituto é o proponente, o executor
+        e o responsável pela prestação de contas — não há intermediação da gestão do projeto.</p></div>
+      <div class="card rv"><span class="num">O QUÊ</span>
+        <h3>Iniciação ao kart elétrico</h3>
+        <p>Dois programas consecutivos de um mês, com 8 encontros cada. Teoria, prática em pista e
+        leitura de telemetria em toda aula. Gratuito, com transporte, alimentação e equipamento inclusos.</p></div>
+      <div class="card rv"><span class="num">PARA QUEM</span>
+        <h3>40 adolescentes</h3>
+        <p>De 12 a 17 anos, 100% matriculados na rede pública e residentes em território de
+        vulnerabilidade social. Metade das vagas reservada a meninas. Seleção por sorteio público.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="dinamica" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-tag">Dinâmica</div>
+      <h2>Duas horas por aula, divididas de um jeito que ninguém fica parado.</h2>
+      <p>A pista é o laboratório. O dado que o aluno gera pilotando é o material de estudo da aula
+        seguinte — tempo de volta vira média, parcial vira gráfico, inconsistência vira desvio.</p>
+    </div>
+
+    <div class="anat rv">
+      <div class="bar">
+        <div class="t"><span class="lb">BLOCO TEÓRICO</span><span class="vl">1h20</span></div>
+        <div class="p"><span class="lb">PISTA + DADOS</span><span class="vl">40 min</span></div>
+      </div>
+      <div class="anat-legend">
+        <div>
+          <h4>Bloco teórico — 80 minutos</h4>
+          <ul>
+            <li>Acolhimento e revisão dos dados da aula anterior no aplicativo (20 min)</li>
+            <li>Conteúdo do dia, com apoio audiovisual e demonstração no kart parado (40 min)</li>
+            <li>Definição do objetivo individual e da hipótese a ser testada em pista (20 min)</li>
+          </ul>
+        </div>
+        <div class="p">
+          <h4>Pista — 40 minutos</h4>
+          <ul>
+            <li>Turma de 10 dividida em 2 grupos de 5</li>
+            <li>Bateria de 20 min com instrução por rádio</li>
+            <li>Grupo de fora analisa a telemetria do colega ao vivo</li>
+            <li>Troca e repetição do ciclo</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-head rv" style="margin-top:56px;margin-bottom:8px">
+      <div class="sec-tag">Grade · 8 encontros por turma</div>
+    </div>
+    <div class="grade rv">
+      <div class="gr"><span class="n">01</span><span class="t">Segurança e primeiro contato</span><span class="d">Equipamento, bandeiras, regras de pista e funcionamento do kart elétrico. Reconhecimento do traçado.</span></div>
+      <div class="gr"><span class="n">02</span><span class="t">Trajetória</span><span class="d">Geometria da curva: ponto de entrada, ápice e saída. Executar a trajetória ideal em duas curvas.</span></div>
+      <div class="gr"><span class="n">03</span><span class="t">Frenagem e aceleração</span><span class="d">Atrito, inércia e transferência de massa. Encontrar o ponto de frenagem consistente.</span></div>
+      <div class="gr"><span class="n">04</span><span class="t">Telemetria I</span><span class="d">O que o dado diz: tempo de volta e parciais. Meta em pista: reduzir a variação entre voltas.</span></div>
+      <div class="gr"><span class="n">05</span><span class="t">Telemetria II</span><span class="d">Médias, gráficos e leitura de consistência. O aluno formula uma hipótese e a testa na pista.</span></div>
+      <div class="gr"><span class="n">06</span><span class="t">O kart por dentro</span><span class="d">Eletromecânica, bateria, torque, gestão de energia e mobilidade limpa.</span></div>
+      <div class="gr"><span class="n">07</span><span class="t">Estratégia e decisão</span><span class="d">Consistência versus pico de desempenho. Sessão cronometrada com meta individual.</span></div>
+      <div class="gr"><span class="n">08</span><span class="t">Avaliação e horizontes</span><span class="d">Apresentação da evolução individual e roda de carreiras do automobilismo.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap" style="position:relative">
+    <div class="sec-head rv">
+      <div class="sec-tag">O que o aluno leva</div>
+      <h2>O projeto não termina na última aula.</h2>
+      <p>Boa parte dos projetos de iniciação entrega uma tarde boa e uma foto. Este entrega um
+        histórico, uma trilha de estudo e uma porta que continua aberta por doze meses.</p>
+    </div>
+    <div class="g4">
+      <div class="stat rv"><b>APP</b><span>Histórico de voltas, anotações pessoais e devolutivas geradas por IA em linguagem acessível. Acesso ativo por 12 meses.</span></div>
+      <div class="stat rv"><b>5</b><span>Módulos de trilha online complementar — telemetria, matemática do automobilismo, kart elétrico, regulamento e carreiras. Acesso gratuito e aberto.</span></div>
+      <div class="stat rv"><b>KIT</b><span>Capacete e macacão personalizados do projeto durante as aulas. Balaclava, luvas e camiseta em caráter definitivo.</span></div>
+      <div class="stat rv"><b>0</b><span>Custo para a família. Transporte fretado com monitor, ida e volta, e lanche em todos os dias de atividade.</span></div>
+    </div>
+    <svg class="mark" viewBox="0 0 107.04 105.3" aria-hidden="true">
+  
+  <g  >
+    <g>
+      <path class="bg" d="M14.48,64.5c-1.95,5.74-3.72,11.57-5.5,17.41-1.1,3.19-1.78,6.49-3.47,9.04-.08.04-.13,0-.16-.11-.04-.31-.04-.61.02-.99.19-1.69,1.05-5.52,2.22-9.4.67-2.26,1.37-4.51,2.06-6.77,1.42-5.79,5.88-14.51.13-17.21-2.92-1.39-8.2-1.24-9.43-3.79-2.94-7.1,14.69-21.74,19.57-26.08,6.49-5.31,13.38-10.67,21-14.4,7.07-3.33,14.86-3.93,22.11-6.52C68.55,3.86,74.18.39,80.01,0c10.33-.01-.89,9.69-4.08,12.07-14.65,12.28-30.8,23.01-46.47,34.05-7.63,5.74-10.16,14.53-12.75,23.55-2.66,8.44-5.77,16.8-8.44,25.23-.87,2.75-3.58,9.98-4.09,10.33-.23.24-.25-.21-.04-1.28.14-.71.37-1.69.7-2.85,3.69-13.14,9.17-26.03,12.21-39.32.62-3.14.34-3.98-.59-2.17-.73,1.46-1.21,2.79-1.89,4.69l-.07.19ZM3.98,54.44c4.24.1,8.47-.94,12.3-2.96.18-.09.35-.2.52-.32.76-.55,1.46-1.19,2.16-1.81.5-.46.93-.92,1.4-1.34,1.26-1.1,5.33-6.34,6.43-7.66.43-.71,2.98-2.59,2.9-.94-.11.6-4.13,4.75-4.46,5.28-1.85,3.03.64,1.85,2.14.78,18.54-11.83,36.31-25.14,52.55-39.94,2.21-2.32-2.24-2.02-3.49-1.79-6.98,1.26-12.83,5.41-18.97,8.7-12.92,7.33-26.08,15.16-37.91,24.09-.22,0-.2-.24.06-.61,2.28-2.62,5.19-4.83,8.06-6.82,7.55-5.12,15.44-9.49,23.05-14.47.64-.63.28-1.28-.41-1.47-5.59-1.61-15.42,6.36-20.29,9.34-9.09,6.67-17.54,14.25-24.71,22.96-1.44,2.08-3.37,4.08-4.09,6.54-.18,1.43,1.32,2.43,2.62,2.43h.13Z"/>
+      <path class="by" d="M48.83,64.62c-1.98,1.97-3.87,7.74-7.45,5.9-1.12-.68-1.56-2.4-2.56-2.79-1.25-.47-2.56.39-3.71.85-1.92.9-3.86,1.07-5.2,2.54-3.26,5.46-5.14,11.73-8.12,17.41-1.1,2.51-2.87,5.77,1.9,4.15,3.5-1.16,8.5-4,11.79-5.8,1.77-1.01,2.94-1.42,4.76-2,3.01-.92,5.86-2.57,8.94-3.44,5.54-1.51,10.96-3.91,16.7-4.63,1.52-.36,5.54.33,2.25,1.86-6.53,1.22-12.57,3.28-18.72,5.67-6.39,2.08-12.64,4.95-18.73,7.89-3.83,2.16-7.09,4.8-11.56,5.71-1.38.29-2.61.26-3.15-.53-.56-.75-.24-2.3.22-3.28,1.07-2.26,2.12-4.45,3.35-6.74,2.87-6.42,6.01-12.8,8.99-19.2,5-11.21,9.74-22.17,13.37-33.82,1.14-2.34.85-9.73,4.04-9.73.59,0,1.52.66,1.71,1.11.26.53.17,1.04-.01,1.65-.93,2.83-2.29,5.58-3.12,8.41-2.06,6.54-5.06,12.89-7.77,19.23-.56,1.89-6.85,11.58-1.33,9.75,1.77-.78,3.2-2.16,4.03-3.63.9-1.55,2.42-5.22,4.61-3.35,1.16,1.05.51,2.6.49,4.17.31,3.81,4.59-3.14,5.82-3.19,2.39-1.59,4.73,2.08,6.94.03,2-1.53,3.18-4.42,5.67-5.05,3.06.04,1.34,5.74,5.28,3.05,1.53-.96,3.19-1.65,4.89-.87,1.13.47,2.23,1.25,3.51,1.19,2.87-.3,5.1-3.33,8.21-3.21,8.5-.09,5.53,9.03,19.28,4.67.86-.22,2.03-.71,2.79-.22.62,1.04-1.35,2.22-2.21,2.68-4.5,2.33-9.55,2.1-14.04-.08-2.37-.87-3.65,1.39-4.76,3.16-1.67,2.41-4.24,4.84-7.39,4.39-2.75-.43-5.51-2.52-5.84-5.04-.31-1.32.28-3.28-.96-4.18-3.88-1.15-4.95,5.14-8.21,5.89-.92.23-1.89-.28-2.09-1.23-.34-1.13.53-3.97-.27-4.59-.61-.34-1.31.66-1.68,1.09-1.73,1.85-2.65,9.64-6.33,7.74-1.37-.89-.66-4.12-2.1-4.74-.83-.2-1.56.47-2.09,1.03l-.13.15ZM81.88,63.9c1.11-1.03,1.87-2.4,2.53-3.79.93-1.56.42-2.35-1.48-1.81-.72.22-1.31.67-1.97,1.01-1.67.93-4.22,1.21-4.64,3.27-.29,3.74,3.42,3.62,5.43,1.43l.12-.12Z"/>
+    </g>
+  </g>
+</svg>
+  </div>
+</section>
+
+<section id="local">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-tag">Local · KGV Kart Center</div>
+      <h2>Kartódromo indoor com frota elétrica. A escolha é técnica, não estética.</h2>
+    </div>
+    <div class="g3">
+      <div class="card rv"><span class="num">01</span><h3>O dado fica legível</h3>
+        <p>O motor elétrico entrega torque constante. É isso que torna as voltas comparáveis entre si —
+        sem essa condição, ensinar telemetria a um iniciante seria inviável.</p></div>
+      <div class="card rv"><span class="num">02</span><h3>Nenhuma aula se perde</h3>
+        <p>Sendo coberto, o kartódromo elimina cancelamento por chuva ou calor. Num programa de oito
+        encontros, isso é a diferença entre concluir e não concluir.</p></div>
+      <div class="card rv"><span class="num">03</span><h3>Instrução na pista</h3>
+        <p>Sem ruído de combustão, o instrutor fala com o aluno durante a bateria. E a operação sem
+        emissões sustenta o conteúdo sobre transição energética.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="impacto" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-tag">Impacto</div>
+      <h2>Metas com instrumento de verificação. Todas auditáveis.</h2>
+      <p>Cada meta abaixo tem um documento que a comprova — lista de presença, declaração escolar,
+        relatório extraído do aplicativo, questionário tabulado. Nada depende de percepção.</p>
+    </div>
+    <div class="tbl-scroll rv">
+      <table class="tbl">
+        <thead><tr><th>Meta</th><th>Alvo</th><th>Como se comprova</th></tr></thead>
+        <tbody>
+          <tr><td>Adolescentes atendidos</td><td class="m">40</td><td>Listas de inscrição e presença assinadas</td></tr>
+          <tr><td>Beneficiários da rede pública</td><td class="m">100%</td><td>Declaração escolar de matrícula</td></tr>
+          <tr><td>Vagas ocupadas por meninas</td><td class="m">50% (20)</td><td>Lista de inscritos com identificação de gênero</td></tr>
+          <tr><td>Aulas ministradas</td><td class="m">32</td><td>Diário de classe e registro fotográfico</td></tr>
+          <tr><td>Frequência média por turma</td><td class="m">≥ 75%</td><td>Listas de presença por encontro</td></tr>
+          <tr><td>Alunos com registro ativo no app</td><td class="m">≥ 80%</td><td>Relatório de uso extraído da plataforma</td></tr>
+          <tr><td>Satisfação de alunos e responsáveis</td><td class="m">≥ 80%</td><td>Questionário aplicado ao fim de cada programa</td></tr>
+          <tr><td>Módulos da trilha online publicados</td><td class="m">5</td><td>Endereço de acesso público e relatório de publicação</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="fiscal" class="band">
+  <div class="wrap" style="position:relative">
+    <div class="sec-head rv">
+      <div class="sec-tag">Mecanismo fiscal</div>
+      <h2>O recurso sai do imposto, não do orçamento de marketing.</h2>
+      <p>Empresas tributadas pelo Lucro Real deduzem do Imposto de Renda devido o valor aplicado em
+        projetos aprovados pelo Ministério do Esporte. Dentro do teto, a dedução é integral — o custo
+        líquido do patrocínio é zero, e o que muda é apenas o destino do dinheiro.</p>
+    </div>
+    <ul class="checks on-dark rv" style="margin-bottom:34px">
+      <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Teto geral de <strong>2%</strong> do IR devido, até o ano-calendário de 2027</li>
+      <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Teto de <strong>4%</strong> para projetos de inclusão social em comunidades vulneráveis</li>
+      <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Este projeto foi desenhado para o enquadramento de <strong>inclusão social</strong></li>
+      <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Contrapartidas de marca previstas em lei, na modalidade patrocínio</li>
+    </ul>
+
+    <div class="tbl-scroll rv">
+      <table class="tbl">
+        <thead><tr><th>Cota</th><th>Valor</th><th>IR devido necessário · teto 4%</th><th>IR devido necessário · teto 2%</th></tr></thead>
+        <tbody>
+          <tr><td>Master</td><td class="m">R$ 440.590</td><td class="m">R$ 11,01 mi</td><td class="m">R$ 22,03 mi</td></tr>
+          <tr><td>Ouro</td><td class="m">R$ 220.295</td><td class="m">R$ 5,51 mi</td><td class="m">R$ 11,01 mi</td></tr>
+          <tr><td>Prata</td><td class="m">R$ 110.148</td><td class="m">R$ 2,75 mi</td><td class="m">R$ 5,51 mi</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="fine rv" style="background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.18)">
+      <h4 style="color:var(--gold)">Letra miúda — que preferimos dizer na primeira reunião</h4>
+      <p style="color:rgba(255,255,255,.75)">O teto de 4% é observado <strong>em conjunto</strong> com as deduções da Lei Rouanet e do
+        incentivo ao audiovisual. Para uma empresa que já utiliza esses mecanismos, não se trata de soma,
+        e sim de um mesmo limite compartilhado.</p>
+      <p style="color:rgba(255,255,255,.75)">A base de cálculo considera a alíquota de 15% do IRPJ e <strong>não inclui</strong> o adicional de 10%.
+        Os valores aportados não são dedutíveis na apuração do lucro real nem na base da CSLL.</p>
+      <p style="color:rgba(255,255,255,.75)">Existe teto global anual de renúncia fixado pelo Governo Federal. Na prática, há fila — patrocínios
+        definidos no início do ano-calendário têm mais segurança de execução.</p>
+      <p style="color:rgba(255,255,255,.75)">A captação depende da aprovação prévia do projeto pelo Ministério do Esporte e da publicação da
+        autorização no Diário Oficial da União. Esta proposta não substitui a análise do seu assessor tributário.</p>
+    </div>
+    <svg class="mark" viewBox="0 0 107.04 105.3" aria-hidden="true">
+  
+  <g  >
+    <g>
+      <path class="bg" d="M14.48,64.5c-1.95,5.74-3.72,11.57-5.5,17.41-1.1,3.19-1.78,6.49-3.47,9.04-.08.04-.13,0-.16-.11-.04-.31-.04-.61.02-.99.19-1.69,1.05-5.52,2.22-9.4.67-2.26,1.37-4.51,2.06-6.77,1.42-5.79,5.88-14.51.13-17.21-2.92-1.39-8.2-1.24-9.43-3.79-2.94-7.1,14.69-21.74,19.57-26.08,6.49-5.31,13.38-10.67,21-14.4,7.07-3.33,14.86-3.93,22.11-6.52C68.55,3.86,74.18.39,80.01,0c10.33-.01-.89,9.69-4.08,12.07-14.65,12.28-30.8,23.01-46.47,34.05-7.63,5.74-10.16,14.53-12.75,23.55-2.66,8.44-5.77,16.8-8.44,25.23-.87,2.75-3.58,9.98-4.09,10.33-.23.24-.25-.21-.04-1.28.14-.71.37-1.69.7-2.85,3.69-13.14,9.17-26.03,12.21-39.32.62-3.14.34-3.98-.59-2.17-.73,1.46-1.21,2.79-1.89,4.69l-.07.19ZM3.98,54.44c4.24.1,8.47-.94,12.3-2.96.18-.09.35-.2.52-.32.76-.55,1.46-1.19,2.16-1.81.5-.46.93-.92,1.4-1.34,1.26-1.1,5.33-6.34,6.43-7.66.43-.71,2.98-2.59,2.9-.94-.11.6-4.13,4.75-4.46,5.28-1.85,3.03.64,1.85,2.14.78,18.54-11.83,36.31-25.14,52.55-39.94,2.21-2.32-2.24-2.02-3.49-1.79-6.98,1.26-12.83,5.41-18.97,8.7-12.92,7.33-26.08,15.16-37.91,24.09-.22,0-.2-.24.06-.61,2.28-2.62,5.19-4.83,8.06-6.82,7.55-5.12,15.44-9.49,23.05-14.47.64-.63.28-1.28-.41-1.47-5.59-1.61-15.42,6.36-20.29,9.34-9.09,6.67-17.54,14.25-24.71,22.96-1.44,2.08-3.37,4.08-4.09,6.54-.18,1.43,1.32,2.43,2.62,2.43h.13Z"/>
+      <path class="by" d="M48.83,64.62c-1.98,1.97-3.87,7.74-7.45,5.9-1.12-.68-1.56-2.4-2.56-2.79-1.25-.47-2.56.39-3.71.85-1.92.9-3.86,1.07-5.2,2.54-3.26,5.46-5.14,11.73-8.12,17.41-1.1,2.51-2.87,5.77,1.9,4.15,3.5-1.16,8.5-4,11.79-5.8,1.77-1.01,2.94-1.42,4.76-2,3.01-.92,5.86-2.57,8.94-3.44,5.54-1.51,10.96-3.91,16.7-4.63,1.52-.36,5.54.33,2.25,1.86-6.53,1.22-12.57,3.28-18.72,5.67-6.39,2.08-12.64,4.95-18.73,7.89-3.83,2.16-7.09,4.8-11.56,5.71-1.38.29-2.61.26-3.15-.53-.56-.75-.24-2.3.22-3.28,1.07-2.26,2.12-4.45,3.35-6.74,2.87-6.42,6.01-12.8,8.99-19.2,5-11.21,9.74-22.17,13.37-33.82,1.14-2.34.85-9.73,4.04-9.73.59,0,1.52.66,1.71,1.11.26.53.17,1.04-.01,1.65-.93,2.83-2.29,5.58-3.12,8.41-2.06,6.54-5.06,12.89-7.77,19.23-.56,1.89-6.85,11.58-1.33,9.75,1.77-.78,3.2-2.16,4.03-3.63.9-1.55,2.42-5.22,4.61-3.35,1.16,1.05.51,2.6.49,4.17.31,3.81,4.59-3.14,5.82-3.19,2.39-1.59,4.73,2.08,6.94.03,2-1.53,3.18-4.42,5.67-5.05,3.06.04,1.34,5.74,5.28,3.05,1.53-.96,3.19-1.65,4.89-.87,1.13.47,2.23,1.25,3.51,1.19,2.87-.3,5.1-3.33,8.21-3.21,8.5-.09,5.53,9.03,19.28,4.67.86-.22,2.03-.71,2.79-.22.62,1.04-1.35,2.22-2.21,2.68-4.5,2.33-9.55,2.1-14.04-.08-2.37-.87-3.65,1.39-4.76,3.16-1.67,2.41-4.24,4.84-7.39,4.39-2.75-.43-5.51-2.52-5.84-5.04-.31-1.32.28-3.28-.96-4.18-3.88-1.15-4.95,5.14-8.21,5.89-.92.23-1.89-.28-2.09-1.23-.34-1.13.53-3.97-.27-4.59-.61-.34-1.31.66-1.68,1.09-1.73,1.85-2.65,9.64-6.33,7.74-1.37-.89-.66-4.12-2.1-4.74-.83-.2-1.56.47-2.09,1.03l-.13.15ZM81.88,63.9c1.11-1.03,1.87-2.4,2.53-3.79.93-1.56.42-2.35-1.48-1.81-.72.22-1.31.67-1.97,1.01-1.67.93-4.22,1.21-4.64,3.27-.29,3.74,3.42,3.62,5.43,1.43l.12-.12Z"/>
+    </g>
+  </g>
+</svg>
+  </div>
+</section>
+
+<section id="cotas">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-tag">Cotas</div>
+      <h2>Três formas de entrar. Uma marca por cota, sem disputa de espaço.</h2>
+      <p>O projeto é pequeno por escolha: 40 adolescentes atendidos com profundidade, e não centenas
+        atendidos por uma tarde. Isso significa poucos patrocinadores e exposição real para cada um.</p>
+    </div>
+    <div class="cotas">
+      <div class="cota master rv">
+        <div class="rib"></div><span class="badge">NAMING</span>
+        <span class="tag">Patrocinador único</span>
+        <h3>Master</h3>
+        <div class="val">R$ 440.590</div>
+        <div class="pct">100% do projeto</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Naming: “Laboratório sobre Rodas, apresentado por [sua marca]”</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Marca em capacetes, macacões e camisetas das 4 turmas</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Marca no aplicativo e na trilha online, com 12 meses de exposição</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Sinalização exclusiva no espaço durante todo o programa</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Banco de conteúdo com direito de uso: fotos e vídeos das turmas</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Presença institucional nas duas aulas de encerramento</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Relatório de impacto auditado, dedicado e verificável</li>
+        </ul>
+      </div>
+      <div class="cota ouro rv">
+        <div class="rib"></div>
+        <span class="tag">Copatrocínio</span>
+        <h3>Ouro</h3>
+        <div class="val">R$ 220.295</div>
+        <div class="pct">50% do projeto</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Marca em uniformes e equipamento de segurança</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Marca no aplicativo e na trilha online</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Sinalização no espaço durante o programa</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Banco de conteúdo com direito de uso</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Presença institucional em uma aula de encerramento</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Relatório de impacto auditado</li>
+        </ul>
+      </div>
+      <div class="cota prata rv">
+        <div class="rib"></div>
+        <span class="tag">Apoio</span>
+        <h3>Prata</h3>
+        <div class="val">R$ 110.148</div>
+        <div class="pct">25% do projeto</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Marca em camisetas e materiais institucionais</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Marca na trilha online</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Reconhecimento na aba pública de transparência</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Banco de conteúdo com direito de uso</li>
+          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Relatório-resumo de impacto</li>
+        </ul>
+      </div>
+    </div>
+    <div class="fine rv">
+      <h4>Sobre os valores</h4>
+      <p>Valores calculados sobre o orçamento total de R$ 440.590,00, submetido ao Ministério do Esporte.
+        Cotas fracionadas abaixo de 25% são analisadas caso a caso. Para viabilizar a execução, o projeto
+        precisa captar no mínimo 20% do valor autorizado dentro do prazo — por isso trabalhamos com poucas
+        cotas e definição rápida.</p>
+      <p>Todas as contrapartidas são de natureza promocional e institucional, conforme a modalidade de
+        patrocínio prevista na legislação. Não há transferência de bens, ingressos comerciais ou vantagem
+        material ao patrocinador.</p>
+    </div>
+  </div>
+</section>
+
+<section id="governanca" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-tag">Governança</div>
+      <h2>O que o comitê de compliance vai perguntar — respondido antes de perguntarem.</h2>
+    </div>
+    <ul class="checks rv">
+      <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Conta bancária específica e exclusiva do projeto, com acesso dos órgãos de controle</li>
+      <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Prestação de contas ao Ministério do Esporte em até 60 dias do encerramento</li>
+      <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Auditoria independente contratada dentro do próprio orçamento do projeto</li>
+      <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Aba pública de transparência: estatuto, balanços e relatórios de execução</li>
+      <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Despesas administrativas em 9,9% do orçamento, contra o limite legal de 15%</li>
+      <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Nenhum recurso destinado a remuneração de atleta profissional</li>
+      <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Nenhum recurso destinado a compra de mídia paga</li>
+      <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Uso de imagem de adolescentes apenas com autorização escrita do responsável</li>
+    </ul>
+  </div>
+</section>
+
+<section id="cronograma" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div class="sec-tag">Cronograma</div>
+      <h2>Quatro meses do aporte ao relatório final.</h2>
+    </div>
+    <div class="tl rv">
+      <div class="step"><span class="m">Mês 1</span><h4>Mobilização</h4>
+        <p>Contratação de equipe, pista, karts e transporte. Produção do app e da trilha. Inscrições abertas e sorteio público.</p></div>
+      <div class="step"><span class="m">Mês 2</span><h4>Programa 1</h4>
+        <p>Turmas A e B. 16 aulas. Avaliação, encerramento e sorteio do programa seguinte.</p></div>
+      <div class="step"><span class="m">Mês 3</span><h4>Programa 2</h4>
+        <p>Turmas C e D. 16 aulas. Avaliação e encerramento.</p></div>
+      <div class="step"><span class="m">Mês 4</span><h4>Prestação de contas</h4>
+        <p>Consolidação dos indicadores, auditoria independente e entrega do relatório de impacto ao patrocinador.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="contato" style="padding-top:0">
+  <div class="wrap">
+    <div class="cta rv">
+      <svg class="mark" viewBox="0 0 107.04 105.3" aria-hidden="true">
+  
+  <g  >
+    <g>
+      <path class="bg" d="M14.48,64.5c-1.95,5.74-3.72,11.57-5.5,17.41-1.1,3.19-1.78,6.49-3.47,9.04-.08.04-.13,0-.16-.11-.04-.31-.04-.61.02-.99.19-1.69,1.05-5.52,2.22-9.4.67-2.26,1.37-4.51,2.06-6.77,1.42-5.79,5.88-14.51.13-17.21-2.92-1.39-8.2-1.24-9.43-3.79-2.94-7.1,14.69-21.74,19.57-26.08,6.49-5.31,13.38-10.67,21-14.4,7.07-3.33,14.86-3.93,22.11-6.52C68.55,3.86,74.18.39,80.01,0c10.33-.01-.89,9.69-4.08,12.07-14.65,12.28-30.8,23.01-46.47,34.05-7.63,5.74-10.16,14.53-12.75,23.55-2.66,8.44-5.77,16.8-8.44,25.23-.87,2.75-3.58,9.98-4.09,10.33-.23.24-.25-.21-.04-1.28.14-.71.37-1.69.7-2.85,3.69-13.14,9.17-26.03,12.21-39.32.62-3.14.34-3.98-.59-2.17-.73,1.46-1.21,2.79-1.89,4.69l-.07.19ZM3.98,54.44c4.24.1,8.47-.94,12.3-2.96.18-.09.35-.2.52-.32.76-.55,1.46-1.19,2.16-1.81.5-.46.93-.92,1.4-1.34,1.26-1.1,5.33-6.34,6.43-7.66.43-.71,2.98-2.59,2.9-.94-.11.6-4.13,4.75-4.46,5.28-1.85,3.03.64,1.85,2.14.78,18.54-11.83,36.31-25.14,52.55-39.94,2.21-2.32-2.24-2.02-3.49-1.79-6.98,1.26-12.83,5.41-18.97,8.7-12.92,7.33-26.08,15.16-37.91,24.09-.22,0-.2-.24.06-.61,2.28-2.62,5.19-4.83,8.06-6.82,7.55-5.12,15.44-9.49,23.05-14.47.64-.63.28-1.28-.41-1.47-5.59-1.61-15.42,6.36-20.29,9.34-9.09,6.67-17.54,14.25-24.71,22.96-1.44,2.08-3.37,4.08-4.09,6.54-.18,1.43,1.32,2.43,2.62,2.43h.13Z"/>
+      <path class="by" d="M48.83,64.62c-1.98,1.97-3.87,7.74-7.45,5.9-1.12-.68-1.56-2.4-2.56-2.79-1.25-.47-2.56.39-3.71.85-1.92.9-3.86,1.07-5.2,2.54-3.26,5.46-5.14,11.73-8.12,17.41-1.1,2.51-2.87,5.77,1.9,4.15,3.5-1.16,8.5-4,11.79-5.8,1.77-1.01,2.94-1.42,4.76-2,3.01-.92,5.86-2.57,8.94-3.44,5.54-1.51,10.96-3.91,16.7-4.63,1.52-.36,5.54.33,2.25,1.86-6.53,1.22-12.57,3.28-18.72,5.67-6.39,2.08-12.64,4.95-18.73,7.89-3.83,2.16-7.09,4.8-11.56,5.71-1.38.29-2.61.26-3.15-.53-.56-.75-.24-2.3.22-3.28,1.07-2.26,2.12-4.45,3.35-6.74,2.87-6.42,6.01-12.8,8.99-19.2,5-11.21,9.74-22.17,13.37-33.82,1.14-2.34.85-9.73,4.04-9.73.59,0,1.52.66,1.71,1.11.26.53.17,1.04-.01,1.65-.93,2.83-2.29,5.58-3.12,8.41-2.06,6.54-5.06,12.89-7.77,19.23-.56,1.89-6.85,11.58-1.33,9.75,1.77-.78,3.2-2.16,4.03-3.63.9-1.55,2.42-5.22,4.61-3.35,1.16,1.05.51,2.6.49,4.17.31,3.81,4.59-3.14,5.82-3.19,2.39-1.59,4.73,2.08,6.94.03,2-1.53,3.18-4.42,5.67-5.05,3.06.04,1.34,5.74,5.28,3.05,1.53-.96,3.19-1.65,4.89-.87,1.13.47,2.23,1.25,3.51,1.19,2.87-.3,5.1-3.33,8.21-3.21,8.5-.09,5.53,9.03,19.28,4.67.86-.22,2.03-.71,2.79-.22.62,1.04-1.35,2.22-2.21,2.68-4.5,2.33-9.55,2.1-14.04-.08-2.37-.87-3.65,1.39-4.76,3.16-1.67,2.41-4.24,4.84-7.39,4.39-2.75-.43-5.51-2.52-5.84-5.04-.31-1.32.28-3.28-.96-4.18-3.88-1.15-4.95,5.14-8.21,5.89-.92.23-1.89-.28-2.09-1.23-.34-1.13.53-3.97-.27-4.59-.61-.34-1.31.66-1.68,1.09-1.73,1.85-2.65,9.64-6.33,7.74-1.37-.89-.66-4.12-2.1-4.74-.83-.2-1.56.47-2.09,1.03l-.13.15ZM81.88,63.9c1.11-1.03,1.87-2.4,2.53-3.79.93-1.56.42-2.35-1.48-1.81-.72.22-1.31.67-1.97,1.01-1.67.93-4.22,1.21-4.64,3.27-.29,3.74,3.42,3.62,5.43,1.43l.12-.12Z"/>
+    </g>
+  </g>
+</svg>
+      <h2>Quarenta adolescentes que nunca pilotaram. Uma marca que torna isso possível.</h2>
+      <p>Podemos apresentar o projeto completo, o orçamento analítico linha a linha e a documentação
+        de governança em uma reunião de 30 minutos — com seu time fiscal na sala, se preferir.</p>
+      <div class="row">
+        <a href="mailto:captacao@institutopedrolima.com.br" class="btn">Agendar apresentação</a>
+        <a href="#cotas" class="btn ghost">Rever as cotas</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-in">
+    <div class="brand big"><svg   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 535.44 105.3">
+  
+  <g  >
+    <g>
+      <path class="bg" d="M442.88,64.5c-1.95,5.74-3.72,11.57-5.5,17.41-1.1,3.19-1.78,6.49-3.47,9.04-.08.04-.13,0-.16-.11-.04-.31-.04-.61.02-.99.19-1.69,1.05-5.52,2.22-9.4.67-2.26,1.37-4.51,2.06-6.77,1.42-5.79,5.88-14.51.13-17.21-2.92-1.39-8.2-1.24-9.43-3.79-2.94-7.1,14.69-21.74,19.57-26.08,6.49-5.31,13.38-10.67,21-14.4,7.07-3.33,14.86-3.93,22.11-6.52C496.96,3.86,502.58.39,508.41,0c10.33-.01-.89,9.69-4.08,12.07-14.65,12.28-30.8,23.01-46.47,34.05-7.63,5.74-10.16,14.53-12.75,23.55-2.66,8.44-5.77,16.8-8.44,25.23-.87,2.75-3.58,9.98-4.09,10.33-.23.24-.25-.21-.04-1.28.14-.71.37-1.69.7-2.85,3.69-13.14,9.17-26.03,12.21-39.32.62-3.14.34-3.98-.59-2.17-.73,1.46-1.21,2.79-1.89,4.69l-.07.19ZM432.39,54.44c4.24.1,8.47-.94,12.3-2.96.18-.09.35-.2.52-.32.76-.55,1.46-1.19,2.16-1.81.5-.46.93-.92,1.4-1.34,1.26-1.1,5.33-6.34,6.43-7.66.43-.71,2.98-2.59,2.9-.94-.11.6-4.13,4.75-4.46,5.28-1.85,3.03.64,1.85,2.14.78,18.54-11.83,36.31-25.14,52.55-39.94,2.21-2.32-2.24-2.02-3.49-1.79-6.98,1.26-12.83,5.41-18.97,8.7-12.92,7.33-26.08,15.16-37.91,24.09-.22,0-.2-.24.06-.61,2.28-2.62,5.19-4.83,8.06-6.82,7.55-5.12,15.44-9.49,23.05-14.47.64-.63.28-1.28-.41-1.47-5.59-1.61-15.42,6.36-20.29,9.34-9.09,6.67-17.54,14.25-24.71,22.96-1.44,2.08-3.37,4.08-4.09,6.54-.18,1.43,1.32,2.43,2.62,2.43h.13Z"/>
+      <path class="by" d="M477.24,64.62c-1.98,1.97-3.87,7.74-7.45,5.9-1.12-.68-1.56-2.4-2.56-2.79-1.25-.47-2.56.39-3.71.85-1.92.9-3.86,1.07-5.2,2.54-3.26,5.46-5.14,11.73-8.12,17.41-1.1,2.51-2.87,5.77,1.9,4.15,3.5-1.16,8.5-4,11.79-5.8,1.77-1.01,2.94-1.42,4.76-2,3.01-.92,5.86-2.57,8.94-3.44,5.54-1.51,10.96-3.91,16.7-4.63,1.52-.36,5.54.33,2.25,1.86-6.53,1.22-12.57,3.28-18.72,5.67-6.39,2.08-12.64,4.95-18.73,7.89-3.83,2.16-7.09,4.8-11.56,5.71-1.38.29-2.61.26-3.15-.53-.56-.75-.24-2.3.22-3.28,1.07-2.26,2.12-4.45,3.35-6.74,2.87-6.42,6.01-12.8,8.99-19.2,5-11.21,9.74-22.17,13.37-33.82,1.14-2.34.85-9.73,4.04-9.73.59,0,1.52.66,1.71,1.11.26.53.17,1.04-.01,1.65-.93,2.83-2.29,5.58-3.12,8.41-2.06,6.54-5.06,12.89-7.77,19.23-.56,1.89-6.85,11.58-1.33,9.75,1.77-.78,3.2-2.16,4.03-3.63.9-1.55,2.42-5.22,4.61-3.35,1.16,1.05.51,2.6.49,4.17.31,3.81,4.59-3.14,5.82-3.19,2.39-1.59,4.73,2.08,6.94.03,2-1.53,3.18-4.42,5.67-5.05,3.06.04,1.34,5.74,5.28,3.05,1.53-.96,3.19-1.65,4.89-.87,1.13.47,2.23,1.25,3.51,1.19,2.87-.3,5.1-3.33,8.21-3.21,8.5-.09,5.53,9.03,19.28,4.67.86-.22,2.03-.71,2.79-.22.62,1.04-1.35,2.22-2.21,2.68-4.5,2.33-9.55,2.1-14.04-.08-2.37-.87-3.65,1.39-4.76,3.16-1.67,2.41-4.24,4.84-7.39,4.39-2.75-.43-5.51-2.52-5.84-5.04-.31-1.32.28-3.28-.96-4.18-3.88-1.15-4.95,5.14-8.21,5.89-.92.23-1.89-.28-2.09-1.23-.34-1.13.53-3.97-.27-4.59-.61-.34-1.31.66-1.68,1.09-1.73,1.85-2.65,9.64-6.33,7.74-1.37-.89-.66-4.12-2.1-4.74-.83-.2-1.56.47-2.09,1.03l-.13.15ZM510.28,63.9c1.11-1.03,1.87-2.4,2.53-3.79.93-1.56.42-2.35-1.48-1.81-.72.22-1.31.67-1.97,1.01-1.67.93-4.22,1.21-4.64,3.27-.29,3.74,3.42,3.62,5.43,1.43l.12-.12Z"/>
+    </g>
+    <g>
+      <path class="bg" d="M0,30.97h2.57v59.92H0V30.97Z"/>
+      <path class="bg" d="M13.83,54.24c0-14.93,8.89-24.46,24.92-24.46s24.92,9.53,24.92,24.46v36.65h-2.57v-36.65c0-13.56-7.88-22.17-22.36-22.17s-22.36,8.61-22.36,22.17v36.65h-2.57v-36.65Z"/>
+      <path class="bg" d="M71.64,74.49h2.57c.27,9.71,7.7,15.3,18.97,15.3s18.97-5.77,18.97-15.3c0-10.08-9.16-11.27-18.6-12.64-9.99-1.47-20.34-2.93-20.34-14.93,0-10.26,7.97-17.13,20.06-17.13s19.79,6.6,20.07,16.58h-2.57c-.27-9.16-7.24-14.29-17.5-14.29s-17.5,5.31-17.5,14.84c0,10.08,9.16,11.27,18.6,12.64,9.99,1.47,20.34,2.93,20.34,14.93,0,10.81-8.52,17.59-21.53,17.59s-21.26-6.6-21.53-17.59Z"/>
+      <path class="bg" d="M141.26,33.26h-22.26v-2.29h47.18v2.29h-22.36v57.63h-2.57v-57.63Z"/>
+      <path class="bg" d="M175.16,30.97h2.57v59.92h-2.57V30.97Z"/>
+      <path class="bg" d="M208.96,33.26h-22.26v-2.29h47.18v2.29h-22.36v57.63h-2.57v-57.63Z"/>
+      <path class="bg" d="M241.11,67.62V30.97h2.57v36.65c0,13.56,7.88,22.17,22.36,22.17s22.17-8.8,22.17-22.17V30.97h2.47v36.65c0,14.93-8.8,24.46-24.65,24.46s-24.92-9.53-24.92-24.46Z"/>
+      <path class="bg" d="M320.09,33.26h-22.26v-2.29h47.18v2.29h-22.36v57.63h-2.57v-57.63Z"/>
+      <path class="bg" d="M345.09,60.93c0-17.96,13.19-31.15,31.88-31.15s31.88,13.19,31.88,31.15-13.19,31.15-31.88,31.15-31.88-13.19-31.88-31.15ZM406.3,60.93c0-16.58-12.09-28.86-29.32-28.86s-29.32,12.28-29.32,28.86,12.09,28.86,29.32,28.86,29.32-12.28,29.32-28.86Z"/>
+    </g>
+  </g>
+</svg></div>
+    <p>Laboratório sobre Rodas · Proposta de patrocínio · Lei de Incentivo ao Esporte<br>
+      Documento sujeito à aprovação do projeto pelo Ministério do Esporte.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>
