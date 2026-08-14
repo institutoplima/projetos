@@ -37,8 +37,12 @@ h1,h2,h3,h4{font-family:'Bricolage Grotesque','Archivo',sans-serif;line-height:1
 a{color:inherit}
 svg{max-width:100%}
 
+/* SCROLL PROGRESS */
+#prog{position:fixed;top:0;left:0;height:2px;width:0;z-index:200;
+  background:linear-gradient(90deg,var(--green),var(--gold));transition:width .1s linear}
+
 /* LOGO */
-.brand svg{height:24px;width:auto;display:block}
+.brand svg{height:24px;width:auto;display:block;transition:height .3s ease}
 .brand .bg{fill:var(--chalk)}
 .brand .by{fill:var(--gold)}
 .brand.lg svg{height:34px}
@@ -47,44 +51,76 @@ svg{max-width:100%}
 .eb{font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:500;
   letter-spacing:.26em;text-transform:uppercase;color:var(--gold);
   display:flex;align-items:center;gap:12px;margin-bottom:18px}
-.eb::after{content:"";flex:1;height:1px;background:var(--line);max-width:120px}
+.eb::after{content:"";flex:1;height:1px;background:var(--line);max-width:120px;
+  transform-origin:left;transform:scaleX(0);transition:transform .8s cubic-bezier(.2,.7,.3,1) .2s}
+.eb.in::after,.in .eb::after,.hero .eb::after{transform:scaleX(1)}
 
 /* NAV */
-nav{position:sticky;top:0;z-index:80;background:rgba(5,20,12,.86);
-  backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;height:66px;gap:18px}
+nav{position:sticky;top:0;z-index:80;background:rgba(5,20,12,.7);
+  backdrop-filter:blur(16px);border-bottom:1px solid transparent;
+  transition:background .3s ease,border-color .3s ease}
+nav.scrolled{background:rgba(5,20,12,.93);border-bottom-color:var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:74px;gap:18px;
+  transition:height .3s ease}
+nav.scrolled .nav-in{height:62px}
+nav.scrolled .brand svg{height:21px}
 .nav-links{display:flex;gap:24px;align-items:center}
-.nav-links a{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color .18s}
-.nav-links a:hover{color:var(--gold)}
+.nav-links a:not(.btn){font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--muted);text-decoration:none;position:relative;padding:4px 0}
+.nav-links a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:var(--gold);transform:scaleX(0);transform-origin:right;transition:transform .32s cubic-bezier(.2,.7,.3,1)}
+.nav-links a:not(.btn):hover{color:var(--gold)}
+.nav-links a:not(.btn):hover::after{transform:scaleX(1);transform-origin:left}
 .btn{display:inline-flex;align-items:center;gap:9px;background:var(--gold);color:#08160e;
   font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.85rem;
   padding:12px 22px;border-radius:6px;text-decoration:none;border:none;cursor:pointer;
-  letter-spacing:-.01em;transition:transform .16s,background .2s,box-shadow .2s;
-  box-shadow:0 0 0 0 rgba(255,205,1,0)}
-.btn:hover{transform:translateY(-2px);background:#ffd94a;box-shadow:0 14px 34px -14px rgba(255,205,1,.9)}
+  letter-spacing:-.01em;position:relative;overflow:hidden;
+  transition:transform .18s cubic-bezier(.2,.7,.3,1),background .2s,box-shadow .25s}
+.btn::before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.55) 50%,transparent 80%);
+  transform:translateX(-140%);transition:transform .7s cubic-bezier(.2,.7,.3,1)}
+.btn:hover::before{transform:translateX(140%)}
+.btn:hover{transform:translateY(-2px);background:#ffd94a;box-shadow:0 16px 36px -14px rgba(255,205,1,.85)}
 .btn.line{background:transparent;color:var(--chalk);border:1px solid var(--line);box-shadow:none}
-.btn.line:hover{border-color:var(--gold);color:var(--gold);background:transparent}
+.btn.line::before{background:linear-gradient(110deg,transparent 20%,rgba(255,205,1,.18) 50%,transparent 80%)}
+.btn.line:hover{border-color:var(--gold);color:var(--gold);background:transparent;box-shadow:none}
 @media(max-width:920px){.nav-links a:not(.btn){display:none}}
 
 /* HERO */
-.hero{padding:72px 0 0;position:relative;overflow:hidden}
+.hero{padding:86px 0 0;position:relative;overflow:hidden}
 .hero::before{content:"";position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(760px 420px at 78% -12%,rgba(1,149,65,.28),transparent 65%),
-             radial-gradient(520px 320px at 4% 96%,rgba(255,205,1,.09),transparent 65%)}
+  background:radial-gradient(780px 440px at 78% -12%,rgba(1,149,65,.3),transparent 65%),
+             radial-gradient(520px 320px at 4% 96%,rgba(255,205,1,.1),transparent 65%);
+  animation:glow 9s ease-in-out infinite alternate}
+@keyframes glow{from{opacity:.75}to{opacity:1}}
 .hero-in{position:relative}
-.hero h1{font-size:clamp(2.5rem,7vw,5rem);font-weight:800;max-width:15em}
+.hero h1{font-size:clamp(2.4rem,6.4vw,4.6rem);font-weight:800;max-width:15em}
 .hero h1 em{font-style:normal;color:var(--gold)}
-.hero .lead{font-size:1.1rem;color:var(--muted);margin-top:26px;max-width:40em}
+.hero .lead{font-size:1.08rem;color:var(--muted);margin-top:26px;max-width:42em}
 .hero .lead strong{color:var(--chalk);font-weight:600}
 .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:34px}
 
+/* HERO TRACE */
+.trace{display:block;width:100%;height:70px;margin-top:52px;overflow:visible}
+.trace path{fill:none;stroke-width:1.5;stroke-dasharray:2600;stroke-dashoffset:2600;
+  animation:draw 2.8s cubic-bezier(.55,0,.2,1) .5s forwards}
+.trace .a{stroke:var(--green-lit);opacity:.5}
+.trace .b{stroke:var(--gold);opacity:.85;animation-delay:.85s}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* LOAD STAGGER */
+.an{opacity:0;transform:translateY(22px);animation:up .85s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes up{to{opacity:1;transform:none}}
+
 /* DATA STRIP */
-.strip{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:60px;
+.strip{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:12px;
   border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-.strip div{padding:22px 20px;border-left:1px solid var(--line-2)}
+.strip div{padding:24px 20px;border-left:1px solid var(--line-2);position:relative;
+  transition:background .3s ease}
 .strip div:first-child{border-left:none;padding-left:0}
-.strip b{display:block;font-family:'IBM Plex Mono',monospace;font-size:1.7rem;
+.strip div::after{content:"";position:absolute;left:0;bottom:-1px;height:2px;width:0;
+  background:var(--gold);transition:width .4s cubic-bezier(.2,.7,.3,1)}
+.strip div:hover::after{width:100%}
+.strip b{display:block;font-family:'IBM Plex Mono',monospace;font-size:1.8rem;
   font-weight:600;color:var(--gold);line-height:1}
 .strip span{display:block;font-size:.72rem;color:var(--muted);margin-top:9px;
   letter-spacing:.08em;text-transform:uppercase;font-family:'IBM Plex Mono',monospace}
@@ -93,24 +129,28 @@ nav{position:sticky;top:0;z-index:80;background:rgba(5,20,12,.86);
   .strip div:nth-child(-n+2){border-top:none}}
 
 /* SECTIONS */
-section{padding:82px 0}
-.sh{max-width:44em;margin-bottom:40px}
+section{padding:88px 0}
+.sh{max-width:44em;margin-bottom:42px}
 .sh h2{font-size:clamp(1.7rem,3.6vw,2.5rem);font-weight:700}
 .sh p{color:var(--muted);font-size:1.02rem;margin-top:16px}
 
-/* SPEC TABLE */
+/* SPEC */
 .spec{border-top:1px solid var(--line)}
 .sp{display:grid;grid-template-columns:190px 1fr;gap:26px;padding:17px 0;
-  border-bottom:1px solid var(--line-2);align-items:baseline}
+  border-bottom:1px solid var(--line-2);align-items:baseline;transition:padding-left .28s ease,background .28s ease}
+.sp:hover{padding-left:12px;background:rgba(255,205,1,.04)}
 .sp dt{font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--muted)}
+  text-transform:uppercase;color:var(--muted);transition:color .28s ease}
+.sp:hover dt{color:var(--gold)}
 .sp dd{font-size:.98rem}
 .sp dd b{color:var(--gold);font-family:'IBM Plex Mono',monospace;font-weight:600}
 @media(max-width:620px){.sp{grid-template-columns:1fr;gap:5px}}
 
 /* AULA */
 .aula{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:30px 28px}
-.bar{display:flex;height:64px;border-radius:8px;overflow:hidden;margin:0 0 22px}
+.bar{display:flex;height:64px;border-radius:8px;overflow:hidden;margin:0 0 22px;
+  clip-path:inset(0 100% 0 0);transition:clip-path 1.1s cubic-bezier(.2,.7,.3,1)}
+.bar.in{clip-path:inset(0 0 0 0)}
 .bar>div{display:flex;flex-direction:column;justify-content:center;padding:0 22px}
 .bar .th{flex:2;background:var(--green);color:#fff}
 .bar .pr{flex:1;background:var(--gold);color:#08160e}
@@ -127,8 +167,12 @@ section{padding:82px 0}
 
 /* GRADE */
 .grade{display:grid;grid-template-columns:1fr 1fr;gap:0 34px;margin-top:34px}
-.gr{display:grid;grid-template-columns:38px 1fr;gap:14px;padding:15px 0;border-top:1px solid var(--line-2)}
-.gr .n{font-family:'IBM Plex Mono',monospace;font-size:.8rem;font-weight:600;color:var(--gold)}
+.gr{display:grid;grid-template-columns:38px 1fr;gap:14px;padding:15px 0;
+  border-top:1px solid var(--line-2);transition:border-color .3s ease}
+.gr:hover{border-top-color:var(--gold)}
+.gr .n{font-family:'IBM Plex Mono',monospace;font-size:.8rem;font-weight:600;color:var(--gold);
+  transition:transform .3s cubic-bezier(.2,.7,.3,1)}
+.gr:hover .n{transform:translateX(4px)}
 .gr .t{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.97rem;margin-bottom:3px}
 .gr .d{font-size:.85rem;color:var(--muted);line-height:1.5}
 @media(max-width:760px){.grade{grid-template-columns:1fr}}
@@ -137,8 +181,12 @@ section{padding:82px 0}
 .g4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .cd{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:26px 22px;
-  transition:border-color .2s,transform .2s}
-.cd:hover{border-color:rgba(255,205,1,.4);transform:translateY(-3px)}
+  position:relative;overflow:hidden;
+  transition:border-color .3s,transform .3s cubic-bezier(.2,.7,.3,1),background .3s}
+.cd::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);
+  transform:scaleY(0);transform-origin:top;transition:transform .4s cubic-bezier(.2,.7,.3,1)}
+.cd:hover::before{transform:scaleY(1)}
+.cd:hover{border-color:rgba(255,205,1,.35);transform:translateY(-5px);background:var(--panel-2)}
 .cd .k{font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.18em;
   color:var(--green-lit);text-transform:uppercase;display:block;margin-bottom:14px}
 .cd h3{font-size:1.08rem;font-weight:700;margin-bottom:8px}
@@ -146,14 +194,16 @@ section{padding:82px 0}
 @media(max-width:900px){.g4,.g3{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.g4,.g3{grid-template-columns:1fr}}
 
-/* ORÇAMENTO — SIGNATURE */
+/* ORÇAMENTO */
 .alloc{display:flex;height:78px;border-radius:10px;overflow:hidden;margin-bottom:12px;
-  border:1px solid var(--line)}
-.alloc .seg{position:relative;cursor:default;transition:filter .2s,transform .2s;
+  border:1px solid var(--line);clip-path:inset(0 100% 0 0);
+  transition:clip-path 1.3s cubic-bezier(.2,.7,.3,1)}
+.alloc.in{clip-path:inset(0 0 0 0)}
+.alloc .seg{position:relative;transition:filter .25s,flex-grow .4s cubic-bezier(.2,.7,.3,1);
   display:flex;align-items:flex-end;padding:9px 10px;overflow:hidden}
 .alloc .seg span{font-family:'IBM Plex Mono',monospace;font-size:.66rem;font-weight:600;
   white-space:nowrap;opacity:.9}
-.alloc .seg:hover,.alloc .seg.on{filter:brightness(1.28)}
+.alloc .seg:hover,.alloc .seg.on{filter:brightness(1.35)}
 .alloc .s1{background:var(--green);color:#fff}
 .alloc .s2{background:#037e37;color:#fff}
 .alloc .s3{background:var(--gold);color:#08160e}
@@ -166,14 +216,14 @@ section{padding:82px 0}
   letter-spacing:.08em;margin-bottom:34px}
 
 .tbl{width:100%;border-collapse:collapse}
-.tbl th,.tbl td{padding:14px 14px;text-align:left;font-size:.9rem;border-bottom:1px solid var(--line-2)}
+.tbl th,.tbl td{padding:14px;text-align:left;font-size:.9rem;border-bottom:1px solid var(--line-2)}
 .tbl th{font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.16em;
   text-transform:uppercase;color:var(--muted);font-weight:500;border-bottom:1px solid var(--line)}
-.tbl td:first-child{padding-left:0}
-.tbl th:first-child{padding-left:0}
+.tbl td:first-child,.tbl th:first-child{padding-left:0}
 .tbl td.m,.tbl th.m{font-family:'IBM Plex Mono',monospace;text-align:right}
 .tbl th:last-child,.tbl td:last-child{padding-right:0}
-.tbl tr.hov td{background:rgba(255,205,1,.06)}
+.tbl tbody tr{transition:background .25s ease}
+.tbl tr.hov td{background:rgba(255,205,1,.07)}
 .tbl .swatch{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:10px;vertical-align:1px}
 .tbl tfoot td{border-bottom:none;border-top:1px solid var(--line);padding-top:16px;
   font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:1.05rem}
@@ -181,9 +231,10 @@ section{padding:82px 0}
 .tbl-scroll{overflow-x:auto}
 .tbl td small{display:block;color:var(--muted);font-size:.78rem;margin-top:3px;line-height:1.45}
 
-/* SPLIT ATIVO/OPERAÇÃO */
 .two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:34px}
-.two .box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:26px 24px}
+.two .box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:26px 24px;
+  transition:transform .3s cubic-bezier(.2,.7,.3,1),border-color .3s}
+.two .box:hover{transform:translateY(-4px)}
 .two .box.hi{border-color:rgba(255,205,1,.35)}
 .two .box .k{font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.18em;
   text-transform:uppercase;color:var(--muted);display:block;margin-bottom:10px}
@@ -193,37 +244,73 @@ section{padding:82px 0}
 .two .box p{font-size:.87rem;color:var(--muted);margin-top:12px}
 @media(max-width:700px){.two{grid-template-columns:1fr}}
 
-/* COTAS */
-.cotas{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
-.ct{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:30px 26px;
-  position:relative;overflow:hidden;transition:transform .2s,border-color .2s}
-.ct:hover{transform:translateY(-4px);border-color:rgba(255,205,1,.4)}
-.ct.master{background:linear-gradient(170deg,var(--panel-2),var(--panel));border-color:rgba(255,205,1,.4)}
-.ct .rib{position:absolute;top:0;left:0;right:0;height:3px;background:var(--line)}
-.ct.master .rib{background:var(--gold)}
-.ct.ouro .rib{background:var(--green-lit)}
-.ct .tag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.2em;
+/* METAS — SCOREBOARD */
+.metas{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.mt{background:var(--void);padding:26px 22px 20px;position:relative;
+  transition:background .35s ease}
+.mt::after{content:"";position:absolute;left:0;top:0;height:2px;width:0;background:var(--gold);
+  transition:width .45s cubic-bezier(.2,.7,.3,1)}
+.mt:hover{background:var(--panel)}
+.mt:hover::after{width:100%}
+.mt .val{font-family:'IBM Plex Mono',monospace;font-size:2.5rem;font-weight:600;
+  color:var(--gold);line-height:1;letter-spacing:-.03em}
+.mt .val i{font-style:normal;font-size:1.15rem;color:var(--muted);margin-right:2px}
+.mt .lb{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:.98rem;
+  margin:14px 0 16px;line-height:1.25}
+.mt .pf{border-top:1px solid var(--line-2);padding-top:12px}
+.mt .pf span{display:block;font-family:'IBM Plex Mono',monospace;font-size:.58rem;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--green-lit);margin-bottom:6px}
+.mt .pf p{font-size:.8rem;color:var(--muted);line-height:1.5}
+@media(max-width:960px){.metas{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.metas{grid-template-columns:1fr}}
+
+/* COTA ÚNICA */
+.master{border:1px solid rgba(255,205,1,.32);border-radius:16px;overflow:hidden;
+  background:linear-gradient(155deg,var(--panel-2),var(--void) 70%);position:relative}
+.master::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--gold),var(--green-lit),var(--gold));
+  background-size:200% 100%;animation:slide 6s linear infinite}
+@keyframes slide{to{background-position:200% 0}}
+.master-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:0}
+.master-l{padding:42px 38px;border-right:1px solid var(--line)}
+.master-r{padding:42px 38px}
+.master .tag{font-family:'IBM Plex Mono',monospace;font-size:.64rem;letter-spacing:.22em;
   text-transform:uppercase;color:var(--muted)}
-.ct h3{font-size:1.55rem;font-weight:800;margin:8px 0 4px}
-.ct .val{font-family:'IBM Plex Mono',monospace;font-size:1.3rem;font-weight:600;color:var(--gold)}
-.ct .pct{font-size:.8rem;color:var(--muted);margin-bottom:20px;font-family:'IBM Plex Mono',monospace}
-.ct ul{list-style:none;display:flex;flex-direction:column;gap:10px}
-.ct li{display:flex;gap:10px;font-size:.88rem;color:var(--muted);align-items:flex-start}
-.ct li svg{flex:none;width:15px;height:15px;stroke:var(--green-lit);fill:none;stroke-width:2.8;margin-top:4px}
-.ct.master li svg{stroke:var(--gold)}
-@media(max-width:900px){.cotas{grid-template-columns:1fr}}
+.master h3{font-size:2.4rem;font-weight:800;margin:10px 0 6px}
+.master .val{font-family:'IBM Plex Mono',monospace;font-size:2rem;font-weight:600;
+  color:var(--gold);line-height:1.1}
+.master .pct{font-family:'IBM Plex Mono',monospace;font-size:.78rem;color:var(--muted);margin-top:8px}
+.master .note{font-size:.88rem;color:var(--muted);margin-top:22px;padding-top:22px;
+  border-top:1px solid var(--line-2)}
+.master h4{font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--chalk);font-weight:500;margin-bottom:20px}
+.master ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:14px 24px}
+.master li{display:flex;gap:10px;font-size:.89rem;color:var(--muted);align-items:flex-start;
+  transition:color .25s ease}
+.master li:hover{color:var(--chalk)}
+.master li svg{flex:none;width:15px;height:15px;stroke:var(--gold);fill:none;stroke-width:2.8;margin-top:4px}
+@media(max-width:900px){.master-grid{grid-template-columns:1fr}
+  .master-l{border-right:none;border-bottom:1px solid var(--line);padding-bottom:32px}
+  .master ul{grid-template-columns:1fr}}
 
 /* CHECKS */
 .checks{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:13px 30px}
-.checks li{display:flex;gap:11px;font-size:.91rem;color:var(--muted);align-items:flex-start}
+.checks li{display:flex;gap:11px;font-size:.91rem;color:var(--muted);align-items:flex-start;
+  transition:color .25s ease}
+.checks li:hover{color:var(--chalk)}
 .checks li svg{flex:none;width:16px;height:16px;stroke:var(--gold);fill:none;stroke-width:2.8;margin-top:4px}
 @media(max-width:700px){.checks{grid-template-columns:1fr}}
 
 /* TIMELINE */
 .tl{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
-.tl .st{padding:22px 20px 0 0;border-top:2px solid var(--line)}
-.tl .st:nth-child(1){border-top-color:var(--gold)}
-.tl .st:nth-child(2),.tl .st:nth-child(3){border-top-color:var(--green-lit)}
+.tl .st{padding:22px 20px 0 0;border-top:2px solid var(--line);position:relative}
+.tl .st::after{content:"";position:absolute;top:-2px;left:0;height:2px;width:0;background:var(--gold);
+  transition:width .8s cubic-bezier(.2,.7,.3,1)}
+.tl.in .st::after{width:100%}
+.tl.in .st:nth-child(2)::after{transition-delay:.18s}
+.tl.in .st:nth-child(3)::after{transition-delay:.36s}
+.tl.in .st:nth-child(4)::after{transition-delay:.54s}
 .tl .st .m{font-family:'IBM Plex Mono',monospace;font-size:.66rem;letter-spacing:.18em;
   color:var(--gold);text-transform:uppercase;display:block;margin-bottom:9px}
 .tl .st h4{font-size:1rem;font-weight:700;margin-bottom:7px}
@@ -232,9 +319,11 @@ section{padding:82px 0}
 @media(max-width:520px){.tl{grid-template-columns:1fr}}
 
 /* CTA */
-.cta{border:1px solid rgba(255,205,1,.3);border-radius:16px;padding:52px 44px;position:relative;
+.cta{border:1px solid rgba(255,205,1,.3);border-radius:16px;padding:56px 46px;position:relative;
   overflow:hidden;background:linear-gradient(150deg,var(--panel-2),var(--void))}
-.cta .mk{position:absolute;right:-26px;top:-34px;width:230px;opacity:.09;pointer-events:none}
+.cta .mk{position:absolute;right:-26px;top:-34px;width:230px;opacity:.09;pointer-events:none;
+  animation:float 11s ease-in-out infinite alternate}
+@keyframes float{to{transform:translateY(16px) rotate(-3deg)}}
 .cta .mk .bg,.cta .mk .by{fill:var(--gold)}
 .cta h2{font-size:clamp(1.6rem,3.4vw,2.3rem);font-weight:800;max-width:17em;position:relative}
 .cta p{color:var(--muted);margin-top:16px;max-width:40em;font-size:1rem;position:relative}
@@ -245,16 +334,25 @@ footer{padding:40px 0 56px;border-top:1px solid var(--line);margin-top:80px}
 .ft{display:flex;justify-content:space-between;align-items:center;gap:22px;flex-wrap:wrap}
 footer p{font-size:.76rem;color:var(--muted);font-family:'IBM Plex Mono',monospace;line-height:1.8}
 
-.rv{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+/* REVEAL */
+.rv{opacity:0;transform:translateY(20px);
+  transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1);
+  transition-delay:var(--d,0s)}
 .rv.in{opacity:1;transform:none}
 :focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:3px}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}
-  .rv{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .rv,.an{opacity:1;transform:none}
+  .bar,.alloc{clip-path:none}
+  .trace path{stroke-dashoffset:0}
+  .eb::after{transform:scaleX(1)}
+}
 </style>
 </head>
 <body>
+<div id="prog"></div>
 
-<nav>
+<nav id="nav">
   <div class="wrap nav-in">
     <a href="#top" class="brand" aria-label="Instituto Pedro Lima"><svg   xmlns="http://www.w3.org/2000/svg" viewBox="0 0 535.44 105.3">
   
@@ -280,7 +378,7 @@ footer p{font-size:.76rem;color:var(--muted);font-family:'IBM Plex Mono',monospa
       <a href="#escopo">Escopo</a>
       <a href="#aula">A aula</a>
       <a href="#custos">Custos</a>
-      <a href="#cotas">Cotas</a>
+      <a href="#cota">Cota</a>
       <a href="#contato" class="btn">Falar com o Instituto</a>
     </div>
   </div>
@@ -288,23 +386,28 @@ footer p{font-size:.76rem;color:var(--muted);font-family:'IBM Plex Mono',monospa
 
 <header class="hero" id="top">
   <div class="wrap hero-in">
-    <div class="eb">Proposta de patrocínio</div>
-    <h1>Ensinar 40 adolescentes a pilotar. E a <em>ler os próprios dados.</em></h1>
-    <p class="lead">O <strong>Laboratório sobre Rodas</strong> é um programa de iniciação ao kart elétrico
-      do Instituto Pedro Lima. Cada aula combina teoria, pista e análise de telemetria — o tempo de volta
-      que o aluno gera pilotando vira o material de estudo da aula seguinte.
-      <strong>Dois meses de execução, 32 aulas, R$ 440.590.</strong></p>
-    <div class="hero-cta">
+    <div class="eb an" style="animation-delay:.05s">Proposta de patrocínio · Instituto Pedro Lima</div>
+    <h1 class="an" style="animation-delay:.15s">Ensinar 40 adolescentes a pilotar. E a <em>ler os próprios dados.</em></h1>
+    <p class="lead an" style="animation-delay:.3s">O <strong>Laboratório sobre Rodas</strong> ensina 40 jovens
+      de 15 a 18 anos da rede pública a pilotar kart elétrico — e a ler a própria telemetria para descobrir
+      onde o tempo foi embora. Toda aula tem teoria, pista e análise de dados.
+      <strong>Quatro turmas, 32 aulas, dois meses de execução.</strong></p>
+    <div class="hero-cta an" style="animation-delay:.42s">
       <a href="#custos" class="btn">Ver o orçamento</a>
       <a href="#aula" class="btn line">Como funciona a aula</a>
     </div>
 
-    <div class="strip">
-      <div><b>40</b><span>Adolescentes</span></div>
-      <div><b>32</b><span>Aulas</span></div>
-      <div><b>16h</b><span>Por aluno</span></div>
-      <div><b>50%</b><span>Vagas · meninas</span></div>
-      <div><b>2</b><span>Meses de execução</span></div>
+    <svg class="trace" viewBox="0 0 1200 70" preserveAspectRatio="none" aria-hidden="true">
+      <path class="a" d="M0,52 L70,50 L110,22 L150,48 L210,46 L250,12 L300,44 L360,42 L392,58 L430,28 L500,32 L540,8 L590,38 L650,36 L690,56 L730,24 L800,30 L850,6 L900,40 L960,38 L1000,58 L1040,26 L1110,34 L1160,14 L1200,36"/>
+      <path class="b" d="M0,60 L70,58 L110,38 L150,56 L210,54 L250,28 L300,52 L360,50 L392,64 L430,42 L500,46 L540,24 L590,50 L650,48 L690,62 L730,38 L800,44 L850,22 L900,50 L960,48 L1000,64 L1040,40 L1110,46 L1160,30 L1200,48"/>
+    </svg>
+
+    <div class="strip an" style="animation-delay:.55s">
+      <div><b data-to="40">0</b><span>Jovens</span></div>
+      <div><b data-to="32">0</b><span>Aulas</span></div>
+      <div><b data-to="16" data-suffix="h">0</b><span>Por aluno</span></div>
+      <div><b data-to="50" data-suffix="%">0</b><span>Vagas · meninas</span></div>
+      <div><b data-to="15" data-suffix="–18">0</b><span>Faixa etária</span></div>
     </div>
   </div>
 </header>
@@ -319,7 +422,7 @@ footer p{font-size:.76rem;color:var(--muted);font-family:'IBM Plex Mono',monospa
     </div>
     <dl class="spec rv">
       <div class="sp"><dt>Objeto</dt><dd>Programa gratuito de iniciação ao kartismo com módulo de telemetria e matemática aplicada</dd></div>
-      <div class="sp"><dt>Público</dt><dd>40 adolescentes de 12 a 17 anos, <b>100%</b> da rede pública, sem experiência prévia</dd></div>
+      <div class="sp"><dt>Público</dt><dd>40 jovens de <b>15 a 18 anos</b>, 100% da rede pública, sem experiência prévia</dd></div>
       <div class="sp"><dt>Formato</dt><dd>2 programas consecutivos de 1 mês · 8 encontros por turma · 2 turmas simultâneas (manhã e tarde)</dd></div>
       <div class="sp"><dt>Turma</dt><dd>10 alunos, divididos em 2 grupos de 5 no bloco prático</dd></div>
       <div class="sp"><dt>Aula</dt><dd>2 horas · <b>1h20</b> de teoria e <b>40 min</b> de pista com análise de dados</dd></div>
@@ -345,7 +448,7 @@ footer p{font-size:.76rem;color:var(--muted);font-family:'IBM Plex Mono',monospa
     </div>
 
     <div class="aula rv">
-      <div class="bar">
+      <div class="bar" id="bar">
         <div class="th"><span class="k">BLOCO TEÓRICO</span><span class="v">1h20</span></div>
         <div class="pr"><span class="k">PISTA + DADOS</span><span class="v">40 min</span></div>
       </div>
@@ -370,15 +473,15 @@ footer p{font-size:.76rem;color:var(--muted);font-family:'IBM Plex Mono',monospa
       </div>
     </div>
 
-    <div class="grade rv">
-      <div class="gr"><span class="n">01</span><div><div class="t">Segurança e primeiro contato</div><div class="d">Equipamento, bandeiras, regras de pista e funcionamento do kart elétrico.</div></div></div>
-      <div class="gr"><span class="n">05</span><div><div class="t">Telemetria II</div><div class="d">Médias, gráficos e consistência. O aluno formula uma hipótese e a testa na pista.</div></div></div>
-      <div class="gr"><span class="n">02</span><div><div class="t">Trajetória</div><div class="d">Geometria da curva: entrada, ápice e saída. Executar a trajetória ideal.</div></div></div>
-      <div class="gr"><span class="n">06</span><div><div class="t">O kart por dentro</div><div class="d">Eletromecânica, bateria, torque e gestão de energia.</div></div></div>
-      <div class="gr"><span class="n">03</span><div><div class="t">Frenagem e aceleração</div><div class="d">Atrito, inércia e transferência de massa. Achar o ponto de frenagem.</div></div></div>
-      <div class="gr"><span class="n">07</span><div><div class="t">Estratégia e decisão</div><div class="d">Consistência versus pico. Sessão cronometrada com meta individual.</div></div></div>
-      <div class="gr"><span class="n">04</span><div><div class="t">Telemetria I</div><div class="d">Tempo de volta e parciais. Meta em pista: reduzir a variação entre voltas.</div></div></div>
-      <div class="gr"><span class="n">08</span><div><div class="t">Avaliação e horizontes</div><div class="d">Apresentação da evolução individual e roda de carreiras do automobilismo.</div></div></div>
+    <div class="grade">
+      <div class="gr rv" style="--d:.00s"><span class="n">01</span><div><div class="t">Segurança e primeiro contato</div><div class="d">Equipamento, bandeiras, regras de pista e funcionamento do kart elétrico.</div></div></div>
+      <div class="gr rv" style="--d:.04s"><span class="n">05</span><div><div class="t">Telemetria II</div><div class="d">Médias, gráficos e consistência. O aluno formula uma hipótese e a testa na pista.</div></div></div>
+      <div class="gr rv" style="--d:.08s"><span class="n">02</span><div><div class="t">Trajetória</div><div class="d">Geometria da curva: entrada, ápice e saída. Executar a trajetória ideal.</div></div></div>
+      <div class="gr rv" style="--d:.12s"><span class="n">06</span><div><div class="t">O kart por dentro</div><div class="d">Eletromecânica, bateria, torque e gestão de energia.</div></div></div>
+      <div class="gr rv" style="--d:.16s"><span class="n">03</span><div><div class="t">Frenagem e aceleração</div><div class="d">Atrito, inércia e transferência de massa. Achar o ponto de frenagem.</div></div></div>
+      <div class="gr rv" style="--d:.20s"><span class="n">07</span><div><div class="t">Estratégia e decisão</div><div class="d">Consistência versus pico. Sessão cronometrada com meta individual.</div></div></div>
+      <div class="gr rv" style="--d:.24s"><span class="n">04</span><div><div class="t">Telemetria I</div><div class="d">Tempo de volta e parciais. Meta em pista: reduzir a variação entre voltas.</div></div></div>
+      <div class="gr rv" style="--d:.28s"><span class="n">08</span><div><div class="t">Avaliação e horizontes</div><div class="d">Apresentação da evolução individual e roda de carreiras do automobilismo.</div></div></div>
     </div>
   </div>
 </section>
@@ -390,13 +493,13 @@ footer p{font-size:.76rem;color:var(--muted);font-family:'IBM Plex Mono',monospa
       <h2>O projeto não termina na última aula.</h2>
     </div>
     <div class="g4">
-      <div class="cd rv"><span class="k">Plataforma</span><h3>Aplicativo próprio</h3>
+      <div class="cd rv" style="--d:0s"><span class="k">Plataforma</span><h3>Aplicativo próprio</h3>
         <p>Histórico de voltas e parciais, anotações pessoais e devolutivas geradas por IA em linguagem acessível. Acesso ativo por 12 meses.</p></div>
-      <div class="cd rv"><span class="k">Continuidade</span><h3>Trilha online</h3>
+      <div class="cd rv" style="--d:.09s"><span class="k">Continuidade</span><h3>Trilha online</h3>
         <p>Cinco módulos: telemetria, matemática do automobilismo, kart elétrico, regulamento e carreiras. Gratuita e aberta ao público.</p></div>
-      <div class="cd rv"><span class="k">Equipamento</span><h3>Kit completo</h3>
+      <div class="cd rv" style="--d:.18s"><span class="k">Equipamento</span><h3>Kit completo</h3>
         <p>Capacete e macacão personalizados durante as aulas. Luvas, balaclava e camiseta em caráter definitivo.</p></div>
-      <div class="cd rv"><span class="k">Acesso</span><h3>Custo zero</h3>
+      <div class="cd rv" style="--d:.27s"><span class="k">Acesso</span><h3>Custo zero</h3>
         <p>Transporte fretado com monitor, ida e volta, e lanche em todos os dias de atividade. Nada é cobrado da família.</p></div>
     </div>
   </div>
@@ -409,11 +512,11 @@ footer p{font-size:.76rem;color:var(--muted);font-family:'IBM Plex Mono',monospa
       <h2>KGV Kart Center. Indoor, elétrico — e a escolha é técnica.</h2>
     </div>
     <div class="g3">
-      <div class="cd rv"><span class="k">Dado legível</span><h3>Torque constante</h3>
+      <div class="cd rv" style="--d:0s"><span class="k">Dado legível</span><h3>Torque constante</h3>
         <p>O motor elétrico entrega potência de forma constante, e é isso que torna as voltas comparáveis entre si. Sem essa condição, ensinar telemetria a um iniciante não funcionaria.</p></div>
-      <div class="cd rv"><span class="k">Previsibilidade</span><h3>Nenhuma aula perdida</h3>
+      <div class="cd rv" style="--d:.1s"><span class="k">Previsibilidade</span><h3>Nenhuma aula perdida</h3>
         <p>Sendo coberto, o kartódromo elimina cancelamento por chuva ou calor extremo. Em um programa de oito encontros, isso decide quem conclui.</p></div>
-      <div class="cd rv"><span class="k">Instrução</span><h3>Comunicação na pista</h3>
+      <div class="cd rv" style="--d:.2s"><span class="k">Instrução</span><h3>Comunicação na pista</h3>
         <p>Sem ruído de combustão, o instrutor fala com o aluno durante a bateria. E a operação sem emissões sustenta o conteúdo sobre mobilidade limpa.</p></div>
     </div>
   </div>
@@ -475,18 +578,18 @@ footer p{font-size:.76rem;color:var(--muted);font-family:'IBM Plex Mono',monospa
       </div>
     </div>
 
-    <div class="two rv">
-      <div class="box hi">
+    <div class="two">
+      <div class="box hi rv" style="--d:0s">
         <span class="k">Ativo permanente</span>
         <b>R$ 124.810</b>
         <p>28,3% do orçamento vira patrimônio que não se consome: aplicativo, trilha online, tablets,
           capacetes e macacões. Tudo permanece disponível para as próximas edições do programa.</p>
       </div>
-      <div class="box">
+      <div class="box rv" style="--d:.1s">
         <span class="k">Operação das 32 aulas</span>
         <b>R$ 315.780</b>
         <p>Pista, karts, equipe, transporte, alimentação e prestação de contas.
-          Equivale a R$ 7.894 por adolescente formado, incluindo 16 horas de instrução,
+          Equivale a R$ 7.894 por jovem formado, incluindo 16 horas de instrução,
           deslocamento e alimentação.</p>
       </div>
     </div>
@@ -497,78 +600,71 @@ footer p{font-size:.76rem;color:var(--muted);font-family:'IBM Plex Mono',monospa
   <div class="wrap">
     <div class="sh rv">
       <div class="eb">Resultado</div>
-      <h2>Metas com documento que as comprova.</h2>
+      <h2>Oito metas. Oito documentos que as comprovam.</h2>
       <p>Nada aqui depende de percepção. Cada meta tem um instrumento de verificação que entra no
         relatório final entregue ao patrocinador.</p>
     </div>
-    <div class="tbl-scroll rv">
-      <table class="tbl">
-        <thead><tr><th>Meta</th><th class="m">Alvo</th><th>Comprovação</th></tr></thead>
-        <tbody>
-          <tr><td>Adolescentes formados</td><td class="m">40</td><td>Listas de inscrição e presença assinadas</td></tr>
-          <tr><td>Alunos da rede pública</td><td class="m">100%</td><td>Declaração escolar de matrícula</td></tr>
-          <tr><td>Vagas ocupadas por meninas</td><td class="m">20</td><td>Lista de inscritos com identificação de gênero</td></tr>
-          <tr><td>Aulas ministradas</td><td class="m">32</td><td>Diário de classe e registro fotográfico</td></tr>
-          <tr><td>Frequência média por turma</td><td class="m">≥ 75%</td><td>Listas de presença por encontro</td></tr>
-          <tr><td>Alunos com registro ativo no app</td><td class="m">≥ 80%</td><td>Relatório de uso extraído da plataforma</td></tr>
-          <tr><td>Satisfação de alunos e responsáveis</td><td class="m">≥ 80%</td><td>Questionário aplicado ao fim de cada programa</td></tr>
-          <tr><td>Módulos publicados da trilha</td><td class="m">5</td><td>Endereço de acesso público</td></tr>
-        </tbody>
-      </table>
+    <div class="metas rv">
+      <div class="mt"><div class="val" data-to="40">0</div>
+        <div class="lb">Jovens formados</div>
+        <div class="pf"><span>Comprovação</span><p>Listas de inscrição e presença assinadas</p></div></div>
+      <div class="mt"><div class="val" data-to="100" data-suffix="%">0</div>
+        <div class="lb">Alunos da rede pública</div>
+        <div class="pf"><span>Comprovação</span><p>Declaração escolar de matrícula</p></div></div>
+      <div class="mt"><div class="val" data-to="20">0</div>
+        <div class="lb">Vagas ocupadas por meninas</div>
+        <div class="pf"><span>Comprovação</span><p>Lista de inscritos com identificação de gênero</p></div></div>
+      <div class="mt"><div class="val" data-to="32">0</div>
+        <div class="lb">Aulas ministradas</div>
+        <div class="pf"><span>Comprovação</span><p>Diário de classe e registro fotográfico</p></div></div>
+      <div class="mt"><div class="val"><i>≥</i><span data-to="75" data-suffix="%">0</span></div>
+        <div class="lb">Frequência média por turma</div>
+        <div class="pf"><span>Comprovação</span><p>Listas de presença por encontro</p></div></div>
+      <div class="mt"><div class="val"><i>≥</i><span data-to="80" data-suffix="%">0</span></div>
+        <div class="lb">Alunos com registro ativo no app</div>
+        <div class="pf"><span>Comprovação</span><p>Relatório de uso extraído da plataforma</p></div></div>
+      <div class="mt"><div class="val"><i>≥</i><span data-to="80" data-suffix="%">0</span></div>
+        <div class="lb">Satisfação de alunos e responsáveis</div>
+        <div class="pf"><span>Comprovação</span><p>Questionário aplicado ao fim de cada programa</p></div></div>
+      <div class="mt"><div class="val" data-to="5">0</div>
+        <div class="lb">Módulos publicados da trilha</div>
+        <div class="pf"><span>Comprovação</span><p>Endereço de acesso público e relatório de publicação</p></div></div>
     </div>
   </div>
 </section>
 
-<section id="cotas" style="padding-top:0">
+<section id="cota" style="padding-top:0">
   <div class="wrap">
     <div class="sh rv">
       <div class="eb">Investimento</div>
-      <h2>Três formas de entrar.</h2>
-      <p>O projeto é pequeno por escolha — 40 adolescentes atendidos com profundidade, e não centenas
-        atendidos por uma tarde. Poucos patrocinadores, exposição real para cada um.</p>
+      <h2>Uma cota. Um patrocinador. Nenhuma disputa de espaço.</h2>
+      <p>O projeto é pequeno por escolha — 40 jovens atendidos com profundidade, e não centenas
+        atendidos por uma tarde. A contrapartida acompanha essa lógica: exclusividade total.</p>
     </div>
-    <div class="cotas">
-      <div class="ct master rv"><div class="rib"></div>
-        <span class="tag">Patrocinador único</span>
-        <h3>Master</h3>
-        <div class="val">R$ 440.590</div>
-        <div class="pct">100% do projeto</div>
-        <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Naming: “Laboratório sobre Rodas, apresentado por [marca]”</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Marca em capacetes, macacões e camisetas das 4 turmas</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Marca no aplicativo e na trilha online, 12 meses de exposição</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Sinalização exclusiva no espaço durante todo o programa</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Banco de conteúdo com direito de uso: fotos e vídeos das turmas</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Presença institucional nas duas aulas de encerramento</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Relatório de impacto auditado e dedicado</li>
-        </ul>
-      </div>
-      <div class="ct ouro rv"><div class="rib"></div>
-        <span class="tag">Copatrocínio</span>
-        <h3>Ouro</h3>
-        <div class="val">R$ 220.295</div>
-        <div class="pct">50% do projeto</div>
-        <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Marca em uniformes e equipamento de segurança</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Marca no aplicativo e na trilha online</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Sinalização no espaço durante o programa</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Banco de conteúdo com direito de uso</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Presença institucional em uma aula de encerramento</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Relatório de impacto auditado</li>
-        </ul>
-      </div>
-      <div class="ct rv"><div class="rib"></div>
-        <span class="tag">Apoio</span>
-        <h3>Prata</h3>
-        <div class="val">R$ 110.148</div>
-        <div class="pct">25% do projeto</div>
-        <ul>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Marca em camisetas e materiais institucionais</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Marca na trilha online</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Reconhecimento na aba pública de transparência</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Banco de conteúdo com direito de uso</li>
-          <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Relatório-resumo de impacto</li>
-        </ul>
+    <div class="master rv">
+      <div class="master-grid">
+        <div class="master-l">
+          <span class="tag">Cota Master · patrocinador único</span>
+          <h3>Master</h3>
+          <div class="val">R$ 440.590,00</div>
+          <div class="pct">100% DO PROJETO</div>
+          <p class="note">Cobre integralmente as 32 aulas, os 40 jovens, a plataforma digital, o
+            equipamento de segurança, o transporte e a auditoria independente. Nenhuma outra marca
+            aparece no programa.</p>
+        </div>
+        <div class="master-r">
+          <h4>O que está incluído</h4>
+          <ul>
+            <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Naming: “Laboratório sobre Rodas, apresentado por [marca]”</li>
+            <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Marca em capacetes, macacões e camisetas das 4 turmas</li>
+            <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Marca no aplicativo e na trilha online, 12 meses de exposição</li>
+            <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Sinalização exclusiva no espaço durante todo o programa</li>
+            <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Banco de conteúdo com direito de uso: fotos e vídeos das turmas</li>
+            <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Presença institucional nas duas aulas de encerramento</li>
+            <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Relatório de impacto auditado e dedicado</li>
+            <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Menção em toda comunicação do Instituto sobre o projeto</li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
@@ -580,7 +676,7 @@ footer p{font-size:.76rem;color:var(--muted);font-family:'IBM Plex Mono',monospa
       <div class="eb">Cronograma</div>
       <h2>Quatro meses do aporte ao relatório final.</h2>
     </div>
-    <div class="tl rv">
+    <div class="tl" id="tl">
       <div class="st"><span class="m">Mês 1</span><h4>Mobilização</h4>
         <p>Contratação de equipe, pista, karts e transporte. Produção do aplicativo e da trilha. Inscrições abertas e seleção.</p></div>
       <div class="st"><span class="m">Mês 2</span><h4>Programa 1</h4>
@@ -607,7 +703,7 @@ footer p{font-size:.76rem;color:var(--muted);font-family:'IBM Plex Mono',monospa
       <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Execução direta pelo Instituto, sem terceirização da gestão</li>
       <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Nenhum recurso para remuneração de atleta profissional</li>
       <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Nenhum recurso para compra de mídia paga</li>
-      <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Uso de imagem de adolescentes apenas com autorização escrita do responsável</li>
+      <li><svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>Uso de imagem apenas com autorização escrita do responsável</li>
     </ul>
   </div>
 </section>
@@ -624,7 +720,7 @@ footer p{font-size:.76rem;color:var(--muted);font-family:'IBM Plex Mono',monospa
     </g>
   </g>
 </svg>
-      <h2>Quarenta adolescentes que nunca pilotaram. Uma marca que torna isso possível.</h2>
+      <h2>Quarenta jovens que nunca pilotaram. Uma marca que torna isso possível.</h2>
       <p>Podemos apresentar o orçamento analítico linha a linha, o currículo completo das oito aulas e a
         documentação de governança em uma reunião de 30 minutos.</p>
       <div class="row">
@@ -663,28 +759,54 @@ footer p{font-size:.76rem;color:var(--muted);font-family:'IBM Plex Mono',monospa
 
 <script>
 (function(){
-  var io=new IntersectionObserver(function(es){
-    es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
-  },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
-  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  /* scroll progress + nav */
+  var prog=document.getElementById('prog'), nav=document.getElementById('nav');
+  function onScroll(){
+    var h=document.documentElement.scrollHeight-window.innerHeight;
+    prog.style.width=(h>0?(window.scrollY/h)*100:0)+'%';
+    nav.classList.toggle('scrolled', window.scrollY>20);
+  }
+  window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  /* count-up */
+  function countUp(el){
+    var to=parseFloat(el.dataset.to||'0'), suf=el.dataset.suffix||'';
+    if(reduce){el.textContent=to+suf;return;}
+    var t0=null, dur=1100;
+    function step(t){
+      if(!t0)t0=t;
+      var p=Math.min((t-t0)/dur,1), e=1-Math.pow(1-p,3);
+      el.textContent=Math.round(to*e)+suf;
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* reveal */
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting)return;
+      e.target.classList.add('in');
+      e.target.querySelectorAll('[data-to]').forEach(countUp);
+      if(e.target.matches('[data-to]'))countUp(e.target);
+      io.unobserve(e.target);
+    });
+  },{threshold:.12,rootMargin:'0px 0px -50px 0px'});
+  document.querySelectorAll('.rv,#bar,#alloc,#tl,.strip').forEach(function(el){io.observe(el);});
+
+  /* budget bar ↔ table */
   var segs=document.querySelectorAll('#alloc .seg');
   var rows=document.querySelectorAll('#tb tr');
   function link(el,rowId,segEl){
-    el.addEventListener('mouseenter',function(){
-      if(rowId){var r=document.getElementById(rowId); if(r) r.classList.add('hov');}
-      if(segEl) segEl.classList.add('on');
-    });
-    el.addEventListener('mouseleave',function(){
-      if(rowId){var r=document.getElementById(rowId); if(r) r.classList.remove('hov');}
-      if(segEl) segEl.classList.remove('on');
-    });
+    function on(){var r=rowId&&document.getElementById(rowId); if(r)r.classList.add('hov'); if(segEl)segEl.classList.add('on');}
+    function off(){var r=rowId&&document.getElementById(rowId); if(r)r.classList.remove('hov'); if(segEl)segEl.classList.remove('on');}
+    el.addEventListener('mouseenter',on); el.addEventListener('mouseleave',off);
+    el.addEventListener('focus',on); el.addEventListener('blur',off);
   }
-  segs.forEach(function(s){ link(s,s.dataset.row,null); });
-  rows.forEach(function(r){
-    var s=document.querySelector('#alloc .'+r.dataset.seg);
-    link(r,r.id,s);
-  });
+  segs.forEach(function(s){link(s,s.dataset.row,null);});
+  rows.forEach(function(r){link(r,r.id,document.querySelector('#alloc .'+r.dataset.seg));});
 })();
 </script>
 </body>
