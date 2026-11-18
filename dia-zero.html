@@ -402,6 +402,18 @@ footer p{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--mute
 .ph-img img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
 .ph-img.tall img{aspect-ratio:16/8}
 .ph-note{font-size:.72rem;color:var(--muted);margin-top:6px}
+.btn.btn-xl{font-size:1.15rem;padding:20px 34px;border-radius:12px;gap:14px;box-shadow:0 18px 40px -18px rgba(255,205,1,.9);animation:pulseG 2.4s ease-in-out infinite}
+.btn-xl svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.btn-xl:hover svg{transform:translateX(4px)}
+@keyframes pulseG{0%,100%{box-shadow:0 0 0 0 rgba(255,205,1,.55),0 18px 40px -18px rgba(255,205,1,.9)}50%{box-shadow:0 0 0 12px rgba(255,205,1,0),0 18px 40px -18px rgba(255,205,1,.9)}}
+@media (prefers-reduced-motion:reduce){.btn.btn-xl{animation:none}}
+.form-cta{margin-top:40px;padding:34px 32px;border-radius:18px;border:1px solid rgba(255,205,1,.35);background:linear-gradient(135deg,rgba(255,205,1,.10),rgba(1,149,65,.10));display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between}
+.form-cta h3{margin:0 0 6px;font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(1.4rem,3vw,1.9rem);letter-spacing:-.02em;color:var(--chalk)}
+.form-cta p{margin:0;color:var(--muted);max-width:520px}
+.form-cta .tag{font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.18em;color:var(--gold);text-transform:uppercase;margin-bottom:10px;display:block}
+@media (max-width:640px){.btn.btn-xl{width:100%;justify-content:center;padding:18px 22px}.form-cta{padding:26px 20px}}
+.hero-cta .btn-xl{flex-basis:100%;max-width:max-content}
+@media (max-width:640px){.hero-cta .btn-xl{max-width:none}}
 </style>
 </head>
 <body>
@@ -457,7 +469,8 @@ footer p{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--mute
     <div class="sub an" style="animation-delay:.24s">A física sai da sala de aula e vai para a pista.</div>
     <p class="lead an" style="animation-delay:.34s">A primeira turma do Laboratório sobre Rodas, com todo o 3º ano. Começa com uma <strong>seletiva online</strong>, passa pela <strong>Prova do Motor</strong> e pela <strong>Prova de Física</strong> na escola e termina no <strong>KGV Kart Center</strong>, com 12 finalistas ao volante de karts 100% elétricos. Ganha quem aprende mais rápido, não quem já chega rápido.</p>
     <div class="hero-cta an" style="animation-delay:.44s">
-      <a href="#seletiva" class="btn">Ver a jornada</a>
+      <a href="https://script.google.com/macros/s/AKfycbzda0l68e9MyMBndpLYM0mHAbafY-3LTjnrSrIjdcwRTAcymxNyD0y-hPHjdTUZ7fFn7Q/exec" class="btn btn-xl" target="_blank" rel="noopener">Fazer a seletiva online <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a href="#seletiva" class="btn line">Ver a jornada</a>
       <a href="#dia" class="btn line">Ver o dia na pista</a>
     </div>
 
@@ -715,6 +728,13 @@ footer p{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--mute
       <p><b>Cada fase também é uma atividade formativa.</b> Todos os inscritos recebem certificado de
         participação e a devolutiva do perfil profissional. Nas provas da escola, quem sai de uma etapa
         fica na sala torcendo pelos colegas até o fim.</p>
+    </div>
+
+    <div class="form-cta rv">
+      <div><span class="tag">Etapa 1 · aberta hoje, 18/11</span>
+        <h3>O primeiro passo é a seletiva online.</h3>
+        <p>Perfil, perguntas e motivação, direto do celular. Leva poucos minutos e é aberta a todo o 3º ano.</p></div>
+      <a href="https://script.google.com/macros/s/AKfycbzda0l68e9MyMBndpLYM0mHAbafY-3LTjnrSrIjdcwRTAcymxNyD0y-hPHjdTUZ7fFn7Q/exec" class="btn btn-xl" target="_blank" rel="noopener">Ir para o formulário <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
   </div>
 </section>
@@ -994,7 +1014,8 @@ footer p{font-family:'IBM Plex Mono',monospace;font-size:.72rem;color:var(--mute
       <p>O Dia Zero é a primeira turma de um projeto que nasceu para crescer. Se você é de uma escola,
         quer acompanhar de perto ou quer somar de alguma forma, fale com a gente.</p>
       <div class="row">
-        <a href="mailto:contato@ipl.org.br" class="btn">Falar com o Instituto</a>
+        <a href="https://script.google.com/macros/s/AKfycbzda0l68e9MyMBndpLYM0mHAbafY-3LTjnrSrIjdcwRTAcymxNyD0y-hPHjdTUZ7fFn7Q/exec" class="btn btn-xl" target="_blank" rel="noopener">Fazer a seletiva online <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a href="mailto:contato@ipl.org.br" class="btn line">Falar com o Instituto</a>
         <a href="https://www.instagram.com/instituto.plima" class="btn line">Acompanhar no Instagram</a>
       </div>
     </div>
